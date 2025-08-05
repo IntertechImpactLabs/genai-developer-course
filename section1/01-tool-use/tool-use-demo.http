@@ -1,0 +1,185 @@
+# Tool Use Demonstration - ChatGPT API
+# This demo shows the difference between LLMs with and without tools
+# Prerequisites: 
+# - Install REST Client extension in VS Code
+# - Set OPENAI_API_KEY environment variable
+
+@openai-key={{$dotenv OPENAI_API_KEY}}
+
+### Part 1: ChatGPT WITHOUT Tools
+# Ask about current weather - LLM can't access real data
+# https://platform.openai.com/docs/api-reference/chat/create
+# https://platform.openai.com/docs/api-reference/chat/object
+# https://platform.openai.com/docs/api-reference/messages/object
+POST https://api.openai.com/v1/chat/completions
+Content-Type: application/json
+Authorization: Bearer {{openai-key}}
+
+{
+  "model": "gpt-4o",
+  "messages": [
+    {
+      "role": "user", 
+      "content": "What's the current weather like in San Francisco? I need the temperature and conditions."
+    }
+  ],
+  "max_tokens": 200
+}
+
+### 
+### Expected Response: LLM will say it can't access real-time data
+### 
+
+---
+
+### Part 2: ChatGPT WITH Tool Definition
+# Same question but with get_weather tool available
+# https://platform.openai.com/docs/guides/function-calling
+POST https://api.openai.com/v1/chat/completions
+Content-Type: application/json
+Authorization: Bearer {{openai-key}}
+
+{
+  "model": "gpt-4o",
+  "messages": [
+    {
+      "role": "user",
+      "content": "What's the current weather like in San Francisco and Minneapolis? I need the temperature and conditions."
+    }
+  ],
+  "tools": [
+    {
+      "type": "function",
+      "function": {
+        "name": "get_weather",
+        "description": "Get current weather information for a specified city",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "city": {
+              "type": "string",
+              "description": "The city name, e.g. San Francisco"
+            },
+            "units": {
+              "type": "string",
+              "enum": ["celsius", "fahrenheit"],
+              "description": "Temperature units"
+            }
+          },
+          "required": ["city"]
+        }
+      }
+    }
+  ],
+  "tool_choice": "auto"
+}
+
+###
+### Expected Response: LLM will make a tool_call requesting weather data
+### Copy the tool call details for the next request
+###
+
+---
+
+### Part 3: Simulate Tool Execution
+# This simulates what an agent would do - execute the weather tool
+# In a real agent, this would call the actual weather API
+# For demo purposes, we'll use this mock response:
+
+# Mock weather API response for San Francisco:
+# {
+#   "location": "San Francisco, CA", 
+#   "temperature": 68,
+#   "condition": "partly cloudy",
+#   "humidity": 72,
+#   "wind_speed": 12
+# }
+
+###
+### This mock data represents what a real weather API would return
+### In production, an agent would make the actual API call here
+###
+
+---
+
+### Part 4: Send Tool Results Back to ChatGPT
+# Complete the conversation by providing tool results
+POST https://api.openai.com/v1/chat/completions
+Content-Type: application/json
+Authorization: Bearer {{$dotenv OPENAI_API_KEY}}
+
+{
+  "model": "gpt-4o",
+  "messages": [
+    {
+      "role": "user",
+      "content": "What's the current weather like in San Francisco? I need the temperature and conditions."
+    },
+    {
+      "role": "assistant",
+      "content": null,
+      "tool_calls": [
+        {
+          "id": "call_abc123",
+          "type": "function",
+          "function": {
+            "name": "get_weather",
+            "arguments": "{\"city\": \"San Francisco\", \"units\": \"fahrenheit\"}"
+          }
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "tool_call_id": "call_abc123",
+      "content": "{\"location\": \"San Francisco, CA\", \"temperature\": 68, \"condition\": \"partly cloudy\", \"humidity\": 72, \"wind_speed\": 12}"
+    }
+  ]
+}
+
+###
+### Expected Response: LLM now provides a natural language response with mock weather data
+###
+
+---
+
+### Part 5: Bonus - Multiple Tool Calls
+# Show how LLM can call multiple tools in sequence
+POST https://api.openai.com/v1/chat/completions
+Content-Type: application/json
+Authorization: Bearer {{$dotenv OPENAI_API_KEY}}
+
+{
+  "model": "gpt-4o",
+  "messages": [
+    {
+      "role": "user",
+      "content": "Compare the weather in San Francisco and New York City. Which city is warmer right now?"
+    }
+  ],
+  "tools": [
+    {
+      "type": "function",
+      "function": {
+        "name": "get_weather",
+        "description": "Get current weather information for a specified city",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "city": {
+              "type": "string",
+              "description": "The city name"
+            }
+          },
+          "required": ["city"]
+        }
+      }
+    }
+  ],
+  "tool_choice": "auto"
+}
+
+###
+### This will likely result in two separate tool calls - one for each city
+### Demonstrating how LLMs can plan multi-step tool usage
+###
