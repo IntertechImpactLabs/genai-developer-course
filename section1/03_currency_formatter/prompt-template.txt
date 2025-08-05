@@ -1,0 +1,17 @@
+Context: I'm building a [TYPE OF APPLICATION] that needs to display prices to international users
+
+Language: [LANGUAGE]
+
+Action: Create a formatCurrency utility function
+
+Requirements:
+- Function name: formatCurrency
+- Parameters: amount (number), currencyCode (string)
+- Support currencies: USD, EUR, GBP
+- Handle edge cases: [LIST YOUR SPECIFIC EDGE CASES]
+- Include: [YOUR SPECIFIC REQUIREMENTS]
+- Code style: Follow PEP 8, include type hints and docstrings
+
+Example usage:
+formatCurrency(1234.56, 'USD') → '$1,234.56'
+formatCurrency(1234.56, 'EUR') → '€1,234.56'
