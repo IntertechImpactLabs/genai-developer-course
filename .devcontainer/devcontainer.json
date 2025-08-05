@@ -1,5 +1,5 @@
 {
-  "name": "GenAI Course - Section 1 Demo 2",
+  "name": "GenAI Course - Complete",
   "image": "mcr.microsoft.com/devcontainers/python:3.11",
   "features": {
     "ghcr.io/devcontainers/features/git:1": {}

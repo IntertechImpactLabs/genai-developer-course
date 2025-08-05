@@ -1,14 +1,71 @@
 {
-  // Use IntelliSense to learn about possible attributes.
-  // Hover to view descriptions of existing attributes.
-  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
-  "version": "0.2.0",
-  "configurations": [
-    {
-      "name": "Python Debugger: Module",
-      "type": "debugpy",
-      "request": "launch",
-      "module": "src.main"
-    }
-  ]
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Section 1 - Part A - Demo 1",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/section1/part-a/demo1/src/main.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}/section1/part-a/demo1",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}/section1/part-a/demo1/src:${workspaceFolder}/shared"
+            }
+        },
+        {
+            "name": "Section 1 - Part A - Demo 2",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/section1/part-a/demo2/src/main.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}/section1/part-a/demo2",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}/section1/part-a/demo2/src:${workspaceFolder}/shared"
+            }
+        },
+        {
+            "name": "Section 1 - Part A - Exercise 1",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/section1/part-a/exercises/exercise1.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}/section1/part-a/exercises",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}/shared"
+            }
+        },
+        {
+            "name": "Section 1 - Part B - Demo 1",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/section1/part-b/demo1/src/main.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}/section1/part-b/demo1",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}/section1/part-b/demo1/src:${workspaceFolder}/shared"
+            }
+        },
+        {
+            "name": "Section 2 - Demo 1",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/section2/demo1/src/main.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}/section2/demo1",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}/section2/demo1/src:${workspaceFolder}/shared"
+            }
+        },
+        {
+            "name": "Section 3 - Demo 1",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/section3/demo1/src/main.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}/section3/demo1",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}/section3/demo1/src:${workspaceFolder}/shared"
+            }
+        }
+    ]
 }
