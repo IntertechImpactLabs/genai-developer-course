@@ -7,6 +7,8 @@
     "ghcr.io/devcontainers/features/node:1": {},
     "ghcr.io/devcontainers/features/dotnet:2": {}
   },
+  "workspaceMount": "source=${localWorkspaceFolder}/..,target=/workspaces,type=bind,consistency=cached",
+  "workspaceFolder": "/workspaces/genai-developer-course",
   "customizations": {
     "vscode": {
       "extensions": [
