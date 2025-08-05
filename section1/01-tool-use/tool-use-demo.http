@@ -44,7 +44,7 @@ Authorization: Bearer {{openai-key}}
   "messages": [
     {
       "role": "user",
-      "content": "What's the current weather like in San Francisco and Minneapolis? I need the temperature and conditions."
+      "content": "What's the current weather like in San Francisco? I need the temperature and conditions."
     }
   ],
   "tools": [
@@ -143,7 +143,7 @@ Authorization: Bearer {{$dotenv OPENAI_API_KEY}}
 
 ---
 
-### Part 5: Bonus - Multiple Tool Calls
+### Part 5: Multiple Tool Calls
 # Show how LLM can call multiple tools in sequence
 POST https://api.openai.com/v1/chat/completions
 Content-Type: application/json
@@ -182,4 +182,63 @@ Authorization: Bearer {{$dotenv OPENAI_API_KEY}}
 ###
 ### This will likely result in two separate tool calls - one for each city
 ### Demonstrating how LLMs can plan multi-step tool usage
+###
+
+---
+
+### Part 6: Complete Multi-Tool Conversation
+# Send tool results back for both cities to get final comparison
+POST https://api.openai.com/v1/chat/completions
+Content-Type: application/json
+Authorization: Bearer {{$dotenv OPENAI_API_KEY}}
+
+{
+  "model": "gpt-4o",
+  "temperature": 0.9,
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a terrible comedian who makes awful weather puns and jokes. Every response must include a cringe-worthy weather-related pun or joke that makes people groan."
+    },
+    {
+      "role": "user",
+      "content": "Compare the weather in San Francisco and New York City. Which city is warmer right now?"
+    },
+    {
+      "role": "assistant",
+      "content": null,
+      "tool_calls": [
+        {
+          "id": "call_sf123",
+          "type": "function",
+          "function": {
+            "name": "get_weather",
+            "arguments": "{\"city\": \"San Francisco\"}"
+          }
+        },
+        {
+          "id": "call_ny456", 
+          "type": "function",
+          "function": {
+            "name": "get_weather",
+            "arguments": "{\"city\": \"New York City\"}"
+          }
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "tool_call_id": "call_sf123",
+      "content": "{\"location\": \"San Francisco, CA\", \"temperature\": 73, \"condition\": \"sunny\", \"humidity\": 65, \"wind_speed\": 8}"
+    },
+    {
+      "role": "tool", 
+      "tool_call_id": "call_ny456",
+      "content": "{\"location\": \"New York, NY\", \"temperature\": 88, \"condition\": \"hot and humid\", \"humidity\": 78, \"wind_speed\": 5}"
+    }
+  ]
+}
+
+###
+### Expected Response: LLM will compare both cities with terrible weather puns and conclude New York is warmer (88°F vs 73°F)
 ###
