@@ -2,12 +2,12 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Password Generator",
+      "name": "Password Validator",
       "type": "debugpy",
       "request": "launch",
-      "program": "${workspaceFolder}/section1/02-password-generator/main.py",
+      "program": "${workspaceFolder}/section1/02_password_validator/main.py",
       "console": "integratedTerminal",
-      "cwd": "${workspaceFolder}/section1/02-password-generator"
+      "cwd": "${workspaceFolder}/section1/02_password_validator"
     }
   ]
 }
