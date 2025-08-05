@@ -21,6 +21,7 @@ wheels/
 *.egg
 
 # Virtual environments
+.venv/
 venv/
 env/
 ENV/
@@ -41,5 +42,17 @@ Thumbs.db
 # Environment variables
 .env
 .env.local
+
+# Node
+node_modules/
+
+# Go
+*.exe
+*.test
+*.out
+*.mod
+*.sum
+vendor/
+coverage.out
 
 CLAUDE.md
