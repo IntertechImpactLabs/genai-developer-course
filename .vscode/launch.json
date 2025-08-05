@@ -5,9 +5,9 @@
       "name": "Password Generator",
       "type": "debugpy",
       "request": "launch",
-      "program": "${workspaceFolder}/section1/password-generator/main.py",
+      "program": "${workspaceFolder}/section1/02-password-generator/main.py",
       "console": "integratedTerminal",
-      "cwd": "${workspaceFolder}/section1/password-generator"
+      "cwd": "${workspaceFolder}/section1/02-password-generator"
     }
   ]
 }
