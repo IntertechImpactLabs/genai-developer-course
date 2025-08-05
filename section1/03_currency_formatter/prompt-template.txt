@@ -10,7 +10,7 @@ Requirements:
 - Support currencies: USD, EUR, GBP
 - Handle edge cases: [LIST YOUR SPECIFIC EDGE CASES]
 - Include: [YOUR SPECIFIC REQUIREMENTS]
-- Code style: Follow PEP 8, include type hints and docstrings
+- Code style: [YOUR CODE STYLE]
 
 Example usage:
 formatCurrency(1234.56, 'USD') → '$1,234.56'
