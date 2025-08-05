@@ -14,7 +14,9 @@
       "extensions": [
         "ms-python.python",
         "ms-toolsai.jupyter",
-        "humao.rest-client"
+        "humao.rest-client",
+        "golang.go",
+        "ms-dotnettools.csdevkit"
       ],
       "settings": {
         "python.defaultInterpreterPath": "/usr/local/bin/python"
