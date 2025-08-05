@@ -1,0 +1,23 @@
+{
+  "name": "GenAI Course - Section 1 Demo 2",
+  "image": "mcr.microsoft.com/devcontainers/python:3.11",
+  "features": {
+    "ghcr.io/devcontainers/features/git:1": {}
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-python.pylint",
+        "ms-python.black-formatter",
+        "ms-toolsai.jupyter"
+      ],
+      "settings": {
+        "python.defaultInterpreterPath": "/usr/local/bin/python",
+        "python.formatting.provider": "black"
+      }
+    }
+  },
+  "postCreateCommand": "pip install -r requirements.txt",
+  "remoteUser": "vscode"
+}
