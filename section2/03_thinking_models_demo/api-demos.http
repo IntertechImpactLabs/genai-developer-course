@@ -1,0 +1,230 @@
+### Section 2B: Thinking Models API Demonstrations
+### These examples show actual API calls for thinking models
+
+@anthropic_key={{$dotenv ANTHROPIC_API_KEY}}
+@openai_key={{$dotenv OPENAI_API_KEY}}
+
+### ============================================
+### ANTHROPIC CLAUDE - STANDARD MODE
+### ============================================
+
+### Claude Standard - Database Optimization with CoT
+POST https://api.anthropic.com/v1/messages
+x-api-key: {{anthropic_key}}
+anthropic-version: 2023-06-01
+content-type: application/json
+
+{
+    "model": "claude-3-5-sonnet-20241022",
+    "max_tokens": 2048,
+    "messages": [
+        {
+            "role": "user", 
+            "content": "<thinking>\nLet me analyze this database performance issue step by step:\n\n1. Identify the bottleneck sources\n2. Examine query patterns and indexing\n3. Check database configuration\n4. Analyze application-level caching\n5. Propose optimization strategy\n</thinking>\n\n<context>\nE-commerce PostgreSQL database:\n- Product search: 2.3 seconds (need <200ms)\n- 50K users, 200K orders\n- Current indexes unknown\n- No caching layer mentioned\n</context>\n\n<solution>\nProvide a complete optimization strategy with:\n- Root cause analysis\n- Specific PostgreSQL optimizations\n- Index recommendations with CREATE statements\n- Query rewrites if needed\n- Caching strategy\n- Monitoring plan\n</solution>"
+        }
+    ]
+}
+
+### ============================================
+### ANTHROPIC CLAUDE - REASONING MODE (If Available)
+### ============================================
+
+### Claude with Extended Thinking - Complex Optimization
+POST https://api.anthropic.com/v1/messages
+x-api-key: {{anthropic_key}}
+anthropic-version: 2023-06-01
+content-type: application/json
+
+{
+    "model": "claude-opus-4-1-20250805",
+    "max_tokens": 4096,
+    "messages": [
+        {
+            "role": "user",
+            "content": "<thinking_budget>5000</thinking_budget>\n\nAnalyze this database performance issue systematically:\n- Product search API: 2.3 seconds latency\n- PostgreSQL backend with 50K users, 200K orders\n- Tables: products (10K rows), orders, order_items, users\n- Current query uses LIKE '%search%' pattern\n\nRequirements:\n- Target: <200ms response time\n- Must maintain full-text search capability\n- Solution should scale to 10x current load\n\nProvide:\n1. Root cause analysis\n2. Indexing strategy with SQL\n3. Query optimization examples\n4. Caching architecture\n5. Monitoring setup"
+        }
+    ]
+}
+
+### ============================================
+### OPENAI - STANDARD GPT-4o WITH CoT
+### ============================================
+
+### GPT-4o with Chain-of-Thought - Database Performance
+POST https://api.openai.com/v1/chat/completions
+Authorization: Bearer {{openai_key}}
+Content-Type: application/json
+
+{
+    "model": "gpt-4o",
+    "messages": [
+        {
+            "role": "system",
+            "content": "You are a database optimization expert. Use step-by-step reasoning to solve performance issues."
+        },
+        {
+            "role": "user",
+            "content": "Let's think through this database performance issue step by step:\n\nE-commerce PostgreSQL database:\n- Product search: 2.3 seconds (need <200ms)\n- 50K users, 200K orders\n- Query: SELECT * FROM products WHERE name LIKE '%search_term%'\n\nStep 1: Identify why the query is slow\nStep 2: Determine what indexes would help\nStep 3: Consider query rewriting options\nStep 4: Design a caching strategy\nStep 5: Create an implementation plan\n\nProvide detailed analysis and specific solutions for each step."
+        }
+    ],
+    "temperature": 0.2,
+    "max_tokens": 2000
+}
+
+### ============================================
+### OPENAI - O3-MINI REASONING MODEL
+### ============================================
+
+### O3-mini - Minimal Prompt for Database Optimization
+POST https://api.openai.com/v1/chat/completions
+Authorization: Bearer {{openai_key}}
+Content-Type: application/json
+
+{
+    "model": "o3-mini",
+    "messages": [
+        {
+            "role": "user",
+            "content": "Analyze and solve this database performance issue:\n- Product search taking 2.3 seconds\n- 50K users, 200K orders\n- PostgreSQL backend\n- Need under 200ms response time\n\nProvide complete optimization strategy."
+        }
+    ]
+}
+
+### ============================================
+### COMPARISON EXAMPLES
+### ============================================
+
+### Example 1: Simple Task (Don't need reasoning models)
+POST https://api.openai.com/v1/chat/completions
+Authorization: Bearer {{openai_key}}
+Content-Type: application/json
+
+{
+    "model": "gpt-4o",
+    "messages": [
+        {
+            "role": "user",
+            "content": "Write a SQL query to find all orders from the last 30 days"
+        }
+    ],
+    "temperature": 0,
+    "max_tokens": 200
+}
+
+### Example 2: Medium Complexity (CoT helps)
+POST https://api.openai.com/v1/chat/completions
+Authorization: Bearer {{openai_key}}
+Content-Type: application/json
+
+{
+    "model": "gpt-4o",
+    "messages": [
+        {
+            "role": "user",
+            "content": "Debug this slow query step by step:\n\nSELECT p.*, COUNT(oi.id) as order_count\nFROM products p\nLEFT JOIN order_items oi ON p.id = oi.product_id\nLEFT JOIN orders o ON oi.order_id = o.id\nWHERE p.name LIKE '%laptop%'\nAND o.created_at > NOW() - INTERVAL '30 days'\nGROUP BY p.id\nORDER BY order_count DESC;\n\nExecution time: 2.3 seconds\n\nThink through:\n1. What makes this query slow?\n2. What indexes would help?\n3. Can we rewrite it for better performance?"
+        }
+    ],
+    "temperature": 0.2,
+    "max_tokens": 1500
+}
+
+### Example 3: Complex Task (Reasoning model territory)
+POST https://api.openai.com/v1/chat/completions
+Authorization: Bearer {{openai_key}}
+Content-Type: application/json
+
+{
+    "model": "o3-mini",
+    "messages": [
+        {
+            "role": "user",
+            "content": "Design a complete solution for this scenario:\n\nMulti-tenant e-commerce platform:\n- 100 tenants, 1M total products\n- Each search crosses tenant boundaries\n- Current: 2.3s search latency\n- PostgreSQL with 32GB RAM\n- Peak: 10K searches/minute\n- Budget: $1000/month\n\nNeed:\n- <200ms search latency\n- Tenant data isolation\n- Real-time inventory updates\n- Scalable to 1000 tenants\n\nProvide architecture, implementation plan, and migration strategy."
+        }
+    ]
+}
+
+### ============================================
+### DEBUGGING SCENARIO COMPARISONS
+### ============================================
+
+### Standard Model - Needs Explicit Structure
+POST https://api.openai.com/v1/chat/completions
+Authorization: Bearer {{openai_key}}
+Content-Type: application/json
+
+{
+    "model": "gpt-4o",
+    "messages": [
+        {
+            "role": "user",
+            "content": "<debugging>\n<symptom>API returns 500 errors during peak hours only</symptom>\n\n<hypothesis>\n1. Database connection pool exhaustion\n2. Memory leaks in application\n3. Rate limiting from external services\n4. Thread pool starvation\n</hypothesis>\n\n<investigation>\nFor each hypothesis, explain:\n- How to verify it\n- What logs/metrics to check\n- Expected indicators\n</investigation>\n\n<solution>\nProvide root cause and fix\n</solution>\n</debugging>"
+        }
+    ],
+    "temperature": 0.3,
+    "max_tokens": 2000
+}
+
+### Reasoning Model - Minimal Prompt
+POST https://api.openai.com/v1/chat/completions
+Authorization: Bearer {{openai_key}}
+Content-Type: application/json
+
+{
+    "model": "o3-mini",
+    "messages": [
+        {
+            "role": "user",
+            "content": "Production API throws 500 errors only during peak hours. Stack: Node.js, PostgreSQL, Redis, AWS. Analyze and solve."
+        }
+    ]
+}
+
+### ============================================
+### PRODUCTION PATTERNS
+### ============================================
+
+### XML-Tagged Template for Complex Analysis
+POST https://api.openai.com/v1/chat/completions
+Authorization: Bearer {{openai_key}}
+Content-Type: application/json
+
+{
+    "model": "gpt-4o",
+    "messages": [
+        {
+            "role": "user",
+            "content": "<context>\nApplication: E-commerce search service\nProblem: 2.3 second latency on product search\nConstraints: PostgreSQL only, $500/month budget, must maintain ACID\n</context>\n\n<thinking>\nStep 1: Analyze current query patterns and table structures\nStep 2: Evaluate indexing strategies\nStep 3: Design caching approach\nStep 4: Plan query optimizations\nStep 5: Consider architectural changes\n</thinking>\n\n<solution>\nProvide complete implementation with:\n- Specific SQL commands\n- Code changes required\n- Deployment sequence\n- Rollback plan\n</solution>\n\n<validation>\nHow to verify each optimization:\n- Performance metrics to track\n- Testing approach\n- Success criteria\n</validation>"
+        }
+    ],
+    "temperature": 0.2,
+    "max_tokens": 3000
+}
+
+### ============================================
+### NOTES FOR DEMO
+### ============================================
+
+# Response Time Comparison:
+# - GPT-4o + CoT: ~5 seconds
+# - O3-mini: ~15-30 seconds  
+# - O3: ~30-90 seconds
+# - Claude standard: ~3 seconds
+# - Claude + thinking: Variable (5-60 seconds)
+
+# Cost Comparison (per query):
+# - GPT-4o: ~$0.02
+# - O3-mini: ~$0.06
+# - O3: ~$0.15
+# - Claude Sonnet: ~$0.03
+# - Claude Opus + thinking: ~$0.10
+
+# Accuracy Notes:
+# - Simple queries: All models perform similarly
+# - Medium complexity: CoT improves accuracy by ~35%
+# - Complex problems: Reasoning models show 50-100% improvement
+
+# Demo Flow:
+# 1. Start with simple query (show overkill of reasoning)
+# 2. Move to medium (show CoT benefit)
+# 3. End with complex (show reasoning model superiority)
+# 4. Discuss cost-benefit trade-offs
