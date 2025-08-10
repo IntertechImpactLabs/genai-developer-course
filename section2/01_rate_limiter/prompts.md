@@ -15,9 +15,9 @@ Role: Act as a senior Node.js developer focused on security
 Create a rate limiter middleware that:
 - Limits login attempts: 5 per minute per IP
 - Blocks brute force: 15-minute lockout after 10 failed attempts
-- Uses advanced caching strategies for distributed systems (must use Redis)
-- Must use express-rate-limit and rate-limit-redis for the main rate limiting logic
-- Only install packages actively used in the solution
+- Implements sliding window algorithm with memory-efficient storage
+- Tracks both per-IP and per-user rate limits
+- Provides detailed rate limit headers (X-RateLimit-Remaining, X-RateLimit-Reset)
 - Provides clear error messages
 - Includes bypass for admin IPs
 
