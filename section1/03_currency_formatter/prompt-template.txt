@@ -1,6 +1,6 @@
 Context: I'm building a [TYPE OF APPLICATION] that needs to display prices to international users
 
-Language: [LANGUAGE]
+Language: [YOUR CHOSEN LANGUAGE - e.g., JavaScript, Python, C#, Go]
 
 Action: Create a formatCurrency utility function
 
@@ -10,7 +10,7 @@ Requirements:
 - Support currencies: USD, EUR, GBP
 - Handle edge cases: [LIST YOUR SPECIFIC EDGE CASES]
 - Include: [YOUR SPECIFIC REQUIREMENTS]
-- Code style: [YOUR CODE STYLE]
+- Code style: [YOUR PREFERENCES]
 
 Example usage:
 formatCurrency(1234.56, 'USD') → '$1,234.56'

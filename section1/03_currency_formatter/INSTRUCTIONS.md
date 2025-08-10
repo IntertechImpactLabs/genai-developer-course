@@ -17,16 +17,23 @@ Create a `formatCurrency` utility function that meets professional standards for
 - Support multiple currencies (USD, EUR, GBP minimum)
 - Handle edge cases: null/undefined inputs, invalid currency codes, very large numbers, negative amounts, zero values, non-numeric inputs
 - Include comprehensive error handling and input validation
-- Follow Python best practices with type hints and docstrings
+- Use appropriate type annotations/hints (language dependent)
+- Follow your language's best practices
+- Include clear documentation/comments
 
 ---
 
 ## Instructions
 
-1. **Customize the prompt template** in `prompt-template.txt` with your specific requirements
-2. **Submit your prompt** to your chosen AI tool (GitHub Copilot, Claude Code, etc.)
-3. **Review and iterate** on the generated code
-4. **Test the function** by running it with various inputs including edge cases (manual testing with print statements)
+1. **Choose your programming language** (JavaScript/TypeScript, Python, C#, or Go)
+2. **Customize the prompt template** in `prompt-template.txt` using the CLEAR framework
+3. **Submit your prompt** to your chosen AI tool:
+   - GitHub Copilot (in your IDE)
+   - ChatGPT/Claude (web interface)
+   - Claude Code (command line)
+4. **Review the generated code** - check if it meets all requirements
+5. **Test the function** with various inputs including edge cases
+6. **Iterate and improve** based on your testing results
 
 Remember: The goal isn't perfect code on the first try, but learning how to effectively collaborate with AI tools!
 
