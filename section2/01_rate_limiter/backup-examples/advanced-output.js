@@ -1,284 +1,133 @@
-// Advanced Rate Limiter Output (from well-structured prompt)
-// Production-ready implementation with Redis, error handling, and security features
+// Rate limiter middleware for Express.js
+// Features:
+// - 5 login attempts per minute per IP
+// - 15-minute lockout after 10 failed attempts (per IP or per user)
+// - Sliding window algorithm, memory-efficient
+// - Tracks per-IP and per-user
+// - Detailed rate limit headers
+// - Bypass for admin IPs
+// - Comprehensive error handling and logging
 
-const Redis = require('ioredis');
-const winston = require('winston');
+const ADMIN_IPS = new Set([
+  '127.0.0.1', // Add more admin IPs as needed
+]);
 
-// Configure logger
-const logger = winston.createLogger({
-  level: 'info',
-  format: winston.format.json(),
-  transports: [
-    new winston.transports.File({ filename: 'error.log', level: 'error' }),
-    new winston.transports.File({ filename: 'combined.log' }),
-  ],
-});
+// In-memory stores for rate limiting
+const ipAttempts = new Map(); // { ip: [timestamps] }
+const userAttempts = new Map(); // { username: [timestamps] }
+const ipLockouts = new Map(); // { ip: lockoutUntil }
+const userLockouts = new Map(); // { username: lockoutUntil }
 
-if (process.env.NODE_ENV !== 'production') {
-  logger.add(new winston.transports.Console({
-    format: winston.format.simple(),
-  }));
+const WINDOW_SIZE = 60 * 1000; // 1 minute
+const MAX_ATTEMPTS_PER_MIN = 5;
+const MAX_FAILED_ATTEMPTS = 10;
+const LOCKOUT_DURATION = 15 * 60 * 1000; // 15 minutes
+
+function cleanupOldAttempts(arr, windowMs) {
+  const now = Date.now();
+  while (arr.length && arr[0] <= now - windowMs) {
+    arr.shift();
+  }
 }
 
-class DistributedRateLimiter {
-  constructor(redisClient, options = {}) {
-    this.redis = redisClient;
-    this.options = {
-      loginAttempts: {
-        maxAttempts: options.maxLoginAttempts || 5,
-        windowMinutes: options.loginWindowMinutes || 1,
-        bruteForceThreshold: options.bruteForceThreshold || 10,
-        lockoutMinutes: options.lockoutMinutes || 15,
-      },
-      adminIPs: options.adminIPs || [],
-    };
-  }
-
-  /**
-   * Check if IP is in admin bypass list
-   */
-  isAdminIP(ip) {
-    return this.options.adminIPs.includes(ip);
-  }
-
-  /**
-   * Generate Redis keys for tracking
-   */
-  getKeys(ip, type) {
-    const prefix = `rate_limit:${type}`;
-    return {
-      attempts: `${prefix}:attempts:${ip}`,
-      lockout: `${prefix}:lockout:${ip}`,
-      bruteForce: `${prefix}:brute_force:${ip}`,
-    };
-  }
-
-  /**
-   * Check if user is currently locked out
-   */
-  async isLockedOut(ip, type) {
+function rateLimiter(options = {}) {
+  return function (req, res, next) {
     try {
-      const keys = this.getKeys(ip, type);
-      const lockout = await this.redis.get(keys.lockout);
-      return !!lockout;
-    } catch (error) {
-      logger.error('Redis error checking lockout:', { error: error.message, ip, type });
-      // Fail open in case of Redis issues (configurable)
-      return false;
-    }
-  }
+      const ip = req.ip || req.connection.remoteAddress;
+      if (ADMIN_IPS.has(ip)) return next();
 
-  /**
-   * Record an attempt and check if limit exceeded
-   */
-  async checkRateLimit(ip, type = 'login') {
-    // Admin bypass
-    if (this.isAdminIP(ip)) {
-      logger.info('Admin IP bypassed rate limiting', { ip });
-      return { allowed: true, remainingAttempts: null };
-    }
+      const now = Date.now();
+      let username = req.body && req.body.username;
+      if (typeof username !== 'string') username = undefined;
 
-    try {
-      const keys = this.getKeys(ip, type);
-      const config = this.options.loginAttempts;
-
-      // Check if currently locked out
-      if (await this.isLockedOut(ip, type)) {
-        const ttl = await this.redis.ttl(keys.lockout);
-        logger.warn('Blocked attempt from locked out IP', { ip, remainingSeconds: ttl });
-        return {
-          allowed: false,
-          reason: 'LOCKOUT',
-          retryAfter: ttl,
-          message: `Too many failed attempts. Please try again in ${Math.ceil(ttl / 60)} minutes.`,
-        };
+      // Check lockouts
+      if (ipLockouts.has(ip) && ipLockouts.get(ip) > now) {
+        const reset = Math.ceil((ipLockouts.get(ip) - now) / 1000);
+        res.set('X-RateLimit-Remaining', 0);
+        res.set('X-RateLimit-Reset', reset);
+        console.warn(`[RateLimiter] IP lockout: ${ip}`);
+        return res.status(429).json({
+          error: 'Too many failed attempts. Try again later.',
+          retry_after_seconds: reset,
+        });
+      }
+      if (username && userLockouts.has(username) && userLockouts.get(username) > now) {
+        const reset = Math.ceil((userLockouts.get(username) - now) / 1000);
+        res.set('X-RateLimit-Remaining', 0);
+        res.set('X-RateLimit-Reset', reset);
+        console.warn(`[RateLimiter] User lockout: ${username}`);
+        return res.status(429).json({
+          error: 'Too many failed attempts for this user. Try again later.',
+          retry_after_seconds: reset,
+        });
       }
 
-      // Increment attempt counter
-      const attempts = await this.redis.incr(keys.attempts);
-      
-      // Set expiry on first attempt
-      if (attempts === 1) {
-        await this.redis.expire(keys.attempts, config.windowMinutes * 60);
+      // Sliding window for IP
+      if (!ipAttempts.has(ip)) ipAttempts.set(ip, []);
+      const ipArr = ipAttempts.get(ip);
+      cleanupOldAttempts(ipArr, WINDOW_SIZE);
+      ipArr.push(now);
+      if (ipArr.length > MAX_ATTEMPTS_PER_MIN) {
+        const reset = Math.ceil((ipArr[0] + WINDOW_SIZE - now) / 1000);
+        res.set('X-RateLimit-Remaining', 0);
+        res.set('X-RateLimit-Reset', reset);
+        console.info(`[RateLimiter] IP rate limit exceeded: ${ip}`);
+        return res.status(429).json({
+          error: 'Too many login attempts from this IP. Please wait and try again.',
+          retry_after_seconds: reset,
+        });
       }
+      res.set('X-RateLimit-Remaining', Math.max(0, MAX_ATTEMPTS_PER_MIN - ipArr.length));
+      res.set('X-RateLimit-Reset', Math.ceil((ipArr[0] + WINDOW_SIZE - now) / 1000));
 
-      // Check against rate limit
-      if (attempts > config.maxAttempts) {
-        // Increment brute force counter
-        const bruteForceAttempts = await this.redis.incr(keys.bruteForce);
-        
-        // Set expiry for brute force tracking (longer window)
-        if (bruteForceAttempts === 1) {
-          await this.redis.expire(keys.bruteForce, config.lockoutMinutes * 60);
-        }
-
-        // Check for brute force lockout
-        if (bruteForceAttempts >= config.bruteForceThreshold) {
-          await this.redis.setex(
-            keys.lockout,
-            config.lockoutMinutes * 60,
-            JSON.stringify({ lockedAt: new Date().toISOString(), attempts: bruteForceAttempts })
-          );
-          
-          logger.error('Brute force detected, IP locked out', { 
-            ip, 
-            attempts: bruteForceAttempts,
-            lockoutMinutes: config.lockoutMinutes 
+      // Sliding window for user (if username provided)
+      if (username) {
+        if (!userAttempts.has(username)) userAttempts.set(username, []);
+        const userArr = userAttempts.get(username);
+        cleanupOldAttempts(userArr, WINDOW_SIZE);
+        userArr.push(now);
+        if (userArr.length > MAX_ATTEMPTS_PER_MIN) {
+          const reset = Math.ceil((userArr[0] + WINDOW_SIZE - now) / 1000);
+          res.set('X-RateLimit-Remaining', 0);
+          res.set('X-RateLimit-Reset', reset);
+          console.info(`[RateLimiter] User rate limit exceeded: ${username}`);
+          return res.status(429).json({
+            error: 'Too many login attempts for this user. Please wait and try again.',
+            retry_after_seconds: reset,
           });
-          
-          return {
-            allowed: false,
-            reason: 'BRUTE_FORCE_LOCKOUT',
-            message: `Account locked due to suspicious activity. Please try again in ${config.lockoutMinutes} minutes.`,
-            retryAfter: config.lockoutMinutes * 60,
-          };
         }
-
-        logger.warn('Rate limit exceeded', { ip, attempts });
-        return {
-          allowed: false,
-          reason: 'RATE_LIMIT',
-          remainingAttempts: 0,
-          message: `Rate limit exceeded. Please slow down your requests.`,
-        };
       }
 
-      // Request allowed
-      const remainingAttempts = config.maxAttempts - attempts;
-      logger.debug('Rate limit check passed', { ip, attempts, remainingAttempts });
-      
-      return {
-        allowed: true,
-        remainingAttempts,
-        attemptsUsed: attempts,
+      // Attach a callback to record failed attempts
+      req.onRateLimitFail = function (isUser) {
+        // Record failed attempt for IP
+        if (!ipAttempts.has(ip)) ipAttempts.set(ip, []);
+        const ipArr = ipAttempts.get(ip);
+        ipArr.push(Date.now());
+        cleanupOldAttempts(ipArr, LOCKOUT_DURATION);
+        if (ipArr.length >= MAX_FAILED_ATTEMPTS) {
+          ipLockouts.set(ip, Date.now() + LOCKOUT_DURATION);
+          console.warn(`[RateLimiter] IP lockout triggered: ${ip}`);
+        }
+        // Record failed attempt for user
+        if (isUser && username) {
+          if (!userAttempts.has(username)) userAttempts.set(username, []);
+          const userArr = userAttempts.get(username);
+          userArr.push(Date.now());
+          cleanupOldAttempts(userArr, LOCKOUT_DURATION);
+          if (userArr.length >= MAX_FAILED_ATTEMPTS) {
+            userLockouts.set(username, Date.now() + LOCKOUT_DURATION);
+            console.warn(`[RateLimiter] User lockout triggered: ${username}`);
+          }
+        }
       };
 
-    } catch (error) {
-      logger.error('Redis error in rate limiter:', { 
-        error: error.message, 
-        stack: error.stack,
-        ip,
-        type 
-      });
-      
-      // Configurable fail-open/fail-closed behavior
-      if (process.env.RATE_LIMIT_FAIL_CLOSED === 'true') {
-        return {
-          allowed: false,
-          reason: 'SYSTEM_ERROR',
-          message: 'Service temporarily unavailable. Please try again later.',
-        };
-      }
-      
-      // Fail open by default for availability
-      return { allowed: true, error: true };
+      next();
+    } catch (err) {
+      console.error('[RateLimiter] Middleware error:', err);
+      res.status(500).json({ error: 'Internal server error in rate limiter.' });
     }
-  }
-
-  /**
-   * Reset rate limit for an IP (e.g., after successful login)
-   */
-  async reset(ip, type = 'login') {
-    try {
-      const keys = this.getKeys(ip, type);
-      await this.redis.del(keys.attempts, keys.bruteForce);
-      logger.info('Rate limit reset for IP', { ip, type });
-    } catch (error) {
-      logger.error('Error resetting rate limit:', { error: error.message, ip, type });
-    }
-  }
-}
-
-/**
- * Express middleware factory
- */
-function createRateLimiterMiddleware(redisClient, options = {}) {
-  const rateLimiter = new DistributedRateLimiter(redisClient, options);
-
-  return (config = {}) => {
-    return async (req, res, next) => {
-      const ip = req.ip || req.connection.remoteAddress;
-      const type = config.type || 'login';
-
-      try {
-        const result = await rateLimiter.checkRateLimit(ip, type);
-
-        // Add rate limit headers
-        if (result.remainingAttempts !== null && result.remainingAttempts !== undefined) {
-          res.setHeader('X-RateLimit-Remaining', result.remainingAttempts);
-        }
-
-        if (result.retryAfter) {
-          res.setHeader('Retry-After', result.retryAfter);
-        }
-
-        if (!result.allowed) {
-          logger.warn('Request blocked by rate limiter', {
-            ip,
-            reason: result.reason,
-            path: req.path,
-            method: req.method,
-          });
-
-          return res.status(429).json({
-            error: 'RATE_LIMIT_EXCEEDED',
-            message: result.message,
-            retryAfter: result.retryAfter,
-          });
-        }
-
-        // Store rate limiter instance for potential reset after successful auth
-        req.rateLimiter = rateLimiter;
-        req.rateLimiterIP = ip;
-
-        next();
-      } catch (error) {
-        logger.error('Unexpected error in rate limiter middleware:', {
-          error: error.message,
-          stack: error.stack,
-        });
-
-        // Don't block request on middleware errors
-        next();
-      }
-    };
   };
 }
 
-// Usage example
-const redis = new Redis({
-  host: process.env.REDIS_HOST || 'localhost',
-  port: process.env.REDIS_PORT || 6379,
-  retryStrategy: (times) => Math.min(times * 50, 2000),
-});
-
-const rateLimiter = createRateLimiterMiddleware(redis, {
-  maxLoginAttempts: 5,
-  loginWindowMinutes: 1,
-  bruteForceThreshold: 10,
-  lockoutMinutes: 15,
-  adminIPs: process.env.ADMIN_IPS ? process.env.ADMIN_IPS.split(',') : [],
-});
-
-// Example Express integration
-/*
-const express = require('express');
-const app = express();
-
-// Apply rate limiter to login endpoint
-app.post('/login', rateLimiter({ type: 'login' }), async (req, res) => {
-  // Authentication logic here
-  
-  // On successful login, reset the rate limit
-  if (authSuccessful) {
-    await req.rateLimiter.reset(req.rateLimiterIP, 'login');
-  }
-  
-  // Rest of login logic...
-});
-*/
-
-module.exports = {
-  DistributedRateLimiter,
-  createRateLimiterMiddleware,
-};
+module.exports = rateLimiter;
