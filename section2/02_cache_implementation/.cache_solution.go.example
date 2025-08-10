@@ -1,0 +1,92 @@
+package cache
+
+import (
+	"sync"
+	"time"
+)
+
+// Cache represents a thread-safe in-memory cache with TTL support
+type Cache struct {
+	mu    sync.RWMutex
+	items map[string]*cacheItem
+}
+
+// cacheItem holds a value and its expiration timer
+type cacheItem struct {
+	value  interface{}
+	timer  *time.Timer
+}
+
+// NewCache creates a new Cache instance
+func NewCache() *Cache {
+	return &Cache{
+		items: make(map[string]*cacheItem),
+	}
+}
+
+// Set stores a key-value pair with a TTL (time-to-live)
+func (c *Cache) Set(key string, value interface{}, ttl time.Duration) error {
+	c.mu.Lock()
+	defer c.mu.Unlock()
+	
+	// If key already exists, stop its timer
+	if item, exists := c.items[key]; exists && item.timer != nil {
+		item.timer.Stop()
+	}
+	
+	// Create new item with expiration timer
+	item := &cacheItem{
+		value: value,
+	}
+	
+	// Set up automatic expiration
+	if ttl > 0 {
+		item.timer = time.AfterFunc(ttl, func() {
+			c.Delete(key)
+		})
+	}
+	
+	c.items[key] = item
+	return nil
+}
+
+// Get retrieves a value by key. Returns (value, true) if found, (nil, false) if not found or expired
+func (c *Cache) Get(key string) (interface{}, bool) {
+	c.mu.RLock()
+	defer c.mu.RUnlock()
+	
+	item, exists := c.items[key]
+	if !exists {
+		return nil, false
+	}
+	
+	return item.value, true
+}
+
+// Delete removes a key from the cache
+func (c *Cache) Delete(key string) {
+	c.mu.Lock()
+	defer c.mu.Unlock()
+	
+	if item, exists := c.items[key]; exists {
+		if item.timer != nil {
+			item.timer.Stop()
+		}
+		delete(c.items, key)
+	}
+}
+
+// Clear removes all items from the cache
+func (c *Cache) Clear() {
+	c.mu.Lock()
+	defer c.mu.Unlock()
+	
+	// Stop all timers before clearing
+	for _, item := range c.items {
+		if item.timer != nil {
+			item.timer.Stop()
+		}
+	}
+	
+	c.items = make(map[string]*cacheItem)
+}
