@@ -134,6 +134,10 @@ describe('Cache', () => {
       cache.set('key2', 'value2');
       cache.set('key3', 'value3');
       
+      // Verify items exist before clearing
+      expect(cache.size()).toBe(3);
+      expect(cache.get('key2')).toBe('value2');
+      
       cache.clear();
       
       expect(cache.get('key1')).toBeUndefined();
