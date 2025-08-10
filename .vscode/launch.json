@@ -4,7 +4,7 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Currency Formatter: Run Tests",
+      "name": "Section 1 Exercise: Currency Formatter Tests",
       "cwd": "${workspaceFolder}/section1/03_currency_formatter",
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run", "test"],
@@ -14,7 +14,7 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Currency Formatter: Debug Tests",
+      "name": "Section 1 Exercise: Currency Formatter Debug",
       "cwd": "${workspaceFolder}/section1/03_currency_formatter",
       "runtimeExecutable": "npx",
       "runtimeArgs": [
@@ -25,6 +25,18 @@
       ],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Section 2 Demo: Rate Limiter API",
+      "program": "${workspaceFolder}/section2/01_rate_limiter/server.js",
+      "cwd": "${workspaceFolder}/section2/01_rate_limiter",
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "env": {
+        "PORT": "3000"
+      }
     }
   ]
 }
