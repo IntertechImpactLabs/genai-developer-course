@@ -57,3 +57,31 @@ vendor/
 coverage.out
 
 CLAUDE.md
+
+# .NET
+bin/
+obj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.vs/
+*.dbmdl
+*.pdb
+*.cache
+*.log
+TestResults/
+*.nupkg
+*.snupkg
+*.vsp
+*.vspx
+*.psess
+*.pidb
+_ReSharper*/
+*.DotSettings.user
+.idea/
+.vscode/
+*.coverage
+*.coveragexml
+*.testresults
+*.publish/
