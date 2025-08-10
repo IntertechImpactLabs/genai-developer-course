@@ -2,12 +2,29 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Password Validator",
-      "type": "debugpy",
+      "type": "node",
       "request": "launch",
-      "program": "${workspaceFolder}/section1/02_password_validator/main.py",
+      "name": "Currency Formatter: Run Tests",
+      "cwd": "${workspaceFolder}/section1/03_currency_formatter",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "test"],
       "console": "integratedTerminal",
-      "cwd": "${workspaceFolder}/section1/02_password_validator"
+      "internalConsoleOptions": "neverOpen"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Currency Formatter: Debug Tests",
+      "cwd": "${workspaceFolder}/section1/03_currency_formatter",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "jest",
+        "--runInBand",
+        "--no-coverage",
+        "currencyFormatter.test.ts"
+      ],
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen"
     }
   ]
 }

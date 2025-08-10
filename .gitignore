@@ -80,7 +80,6 @@ TestResults/
 _ReSharper*/
 *.DotSettings.user
 .idea/
-.vscode/
 *.coverage
 *.coveragexml
 *.testresults

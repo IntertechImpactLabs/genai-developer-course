@@ -16,7 +16,8 @@
         "ms-toolsai.jupyter",
         "humao.rest-client",
         "golang.go",
-        "ms-dotnettools.csdevkit"
+        "ms-dotnettools.csdevkit",
+        "Orta.vscode-jest"
       ],
       "settings": {
         "python.defaultInterpreterPath": "/usr/local/bin/python"

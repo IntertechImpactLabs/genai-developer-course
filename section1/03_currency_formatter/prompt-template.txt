@@ -1,16 +1,18 @@
 Context: I'm building a [TYPE OF APPLICATION] that needs to display prices to international users
 
-Language: [YOUR CHOSEN LANGUAGE - e.g., JavaScript, Python, C#, Go]
+Language: TypeScript
 
 Action: Create a formatCurrency utility function
 
 Requirements:
 - Function name: formatCurrency
 - Parameters: amount (number), currencyCode (string)
+- Return type: string
 - Support currencies: USD, EUR, GBP
 - Handle edge cases: [LIST YOUR SPECIFIC EDGE CASES]
-- Include: [YOUR SPECIFIC REQUIREMENTS]
-- Code style: [YOUR PREFERENCES]
+- Use Intl.NumberFormat API for formatting
+- Include TypeScript types and JSDoc comments
+- Throw descriptive errors for invalid inputs
 
 Example usage:
 formatCurrency(1234.56, 'USD') → '$1,234.56'
