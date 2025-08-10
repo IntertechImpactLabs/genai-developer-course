@@ -3,7 +3,6 @@
   "image": "mcr.microsoft.com/devcontainers/python:3.11",
   "features": {
     "ghcr.io/devcontainers/features/git:1": {},
-    "ghcr.io/devcontainers/features/go:1": {},
     "ghcr.io/devcontainers/features/node:1": {},
     "ghcr.io/devcontainers/features/dotnet:2": {}
   },
@@ -15,7 +14,6 @@
         "ms-python.python",
         "ms-toolsai.jupyter",
         "humao.rest-client",
-        "golang.go",
         "ms-dotnettools.csdevkit",
         "Orta.vscode-jest"
       ],
