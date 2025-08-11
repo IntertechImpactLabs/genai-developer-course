@@ -1,0 +1,221 @@
+### Refactoring Demo API Tests
+### Use with VS Code REST Client extension
+### Make sure server is running: npm start
+
+@baseUrl = http://localhost:3000/api
+
+### Health Check
+GET http://localhost:3000/health
+
+###############
+### USERS
+###############
+
+### Get all users
+GET {{baseUrl}}/users
+
+### Get user by ID
+GET {{baseUrl}}/users/1
+
+### Create new user
+POST {{baseUrl}}/users
+Content-Type: application/json
+
+{
+  "username": "test_user",
+  "email": "test@example.com",
+  "password": "securepassword123"
+}
+
+### Update user
+PUT {{baseUrl}}/users/1
+Content-Type: application/json
+
+{
+  "username": "john_updated",
+  "email": "john.updated@example.com"
+}
+
+### Delete user
+DELETE {{baseUrl}}/users/4
+
+###############
+### PRODUCTS
+###############
+
+### Get all products
+GET {{baseUrl}}/products
+
+### Get products with filters
+GET {{baseUrl}}/products?minPrice=50&maxPrice=500&inStock=true
+
+### Get product by ID
+GET {{baseUrl}}/products/1
+
+### Create new product
+POST {{baseUrl}}/products
+Content-Type: application/json
+
+{
+  "name": "USB-C Cable",
+  "description": "High-speed USB-C charging cable",
+  "price": 19.99,
+  "stock": 100
+}
+
+### Update product stock - Add
+PUT {{baseUrl}}/products/1/stock
+Content-Type: application/json
+
+{
+  "quantity": 10,
+  "operation": "add"
+}
+
+### Update product stock - Subtract
+PUT {{baseUrl}}/products/2/stock
+Content-Type: application/json
+
+{
+  "quantity": 5,
+  "operation": "subtract"
+}
+
+### Delete product
+DELETE {{baseUrl}}/products/6
+
+###############
+### ORDERS
+###############
+
+### Get all orders
+GET {{baseUrl}}/orders
+
+### Get orders filtered by user
+GET {{baseUrl}}/orders?userId=1
+
+### Get orders filtered by status
+GET {{baseUrl}}/orders?status=pending
+
+### Get order by ID with items
+GET {{baseUrl}}/orders/1
+
+### Create new order (simple)
+POST {{baseUrl}}/orders
+Content-Type: application/json
+
+{
+  "userId": 1,
+  "items": [
+    {
+      "productId": 1,
+      "quantity": 1
+    }
+  ]
+}
+
+### Create new order (multiple items)
+POST {{baseUrl}}/orders
+Content-Type: application/json
+
+{
+  "userId": 2,
+  "items": [
+    {
+      "productId": 1,
+      "quantity": 2
+    },
+    {
+      "productId": 3,
+      "quantity": 1
+    },
+    {
+      "productId": 5,
+      "quantity": 3
+    }
+  ]
+}
+
+### Update order status to processing
+PUT {{baseUrl}}/orders/1/status
+Content-Type: application/json
+
+{
+  "status": "processing"
+}
+
+### Update order status to shipped
+PUT {{baseUrl}}/orders/1/status
+Content-Type: application/json
+
+{
+  "status": "shipped"
+}
+
+### Update order status to delivered
+PUT {{baseUrl}}/orders/1/status
+Content-Type: application/json
+
+{
+  "status": "delivered"
+}
+
+### Cancel order
+PUT {{baseUrl}}/orders/2/status
+Content-Type: application/json
+
+{
+  "status": "cancelled"
+}
+
+### Get order statistics
+GET {{baseUrl}}/orders/stats/summary
+
+###############
+### ERROR CASES
+###############
+
+### Create user with duplicate email (should fail)
+POST {{baseUrl}}/users
+Content-Type: application/json
+
+{
+  "username": "another_user",
+  "email": "john@example.com",
+  "password": "password123"
+}
+
+### Create product with negative price (should fail)
+POST {{baseUrl}}/products
+Content-Type: application/json
+
+{
+  "name": "Invalid Product",
+  "price": -10.99,
+  "stock": 10
+}
+
+### Create order with insufficient stock (should fail)
+POST {{baseUrl}}/orders
+Content-Type: application/json
+
+{
+  "userId": 1,
+  "items": [
+    {
+      "productId": 1,
+      "quantity": 1000
+    }
+  ]
+}
+
+### Update order with invalid status (should fail)
+PUT {{baseUrl}}/orders/1/status
+Content-Type: application/json
+
+{
+  "status": "invalid_status"
+}
+
+### Delete product that has been ordered (should fail)
+DELETE {{baseUrl}}/products/1
