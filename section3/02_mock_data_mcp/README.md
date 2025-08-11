@@ -5,11 +5,13 @@ This is the starter code for the Section 3B MCP exercise. Your task is to comple
 ## Setup
 
 1. Install dependencies:
+
 ```bash
 npm install
 ```
 
 2. Build the TypeScript code:
+
 ```bash
 npm run build
 ```
@@ -19,6 +21,7 @@ npm run build
 Complete the implementation in `src/index.ts`:
 
 1. **Define the tools** in the `tools/list` handler:
+
    - `generate_users` - Generate user profiles with optional addresses
    - `generate_products` - Generate e-commerce products
    - `generate_transactions` - Generate financial transactions
@@ -53,13 +56,16 @@ After building your server:
 ### For GitHub Copilot Chat
 
 Add to `.vscode/mcp.json`:
+
 ```json
 {
   "servers": {
     "mock-data": {
       "type": "stdio",
       "command": "node",
-      "args": ["/absolute/path/to/02_mock_data_mcp/dist/index.js"]
+      "args": [
+        "/workspaces/genai-developer-course/section3/02_mock_data_mcp/dist/index.js"
+      ]
     }
   }
 }
