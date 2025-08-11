@@ -1,0 +1,140 @@
+{
+  "categories": {
+    "electronics": {
+      "names": [
+        "Smartphone", "Laptop", "Tablet", "Smartwatch", "Headphones",
+        "Wireless Earbuds", "Smart TV", "Gaming Console", "Digital Camera", "Drone",
+        "Bluetooth Speaker", "Power Bank", "USB Cable", "Wireless Charger", "Monitor",
+        "Keyboard", "Mouse", "Webcam", "Microphone", "Router",
+        "Smart Home Hub", "Security Camera", "Video Doorbell", "Smart Light", "Smart Plug",
+        "Fitness Tracker", "E-reader", "Portable SSD", "Graphics Card", "RAM",
+        "Motherboard", "CPU", "Gaming Headset", "VR Headset", "Action Camera",
+        "Soundbar", "Projector", "Smart Display", "Robot Vacuum", "Air Purifier"
+      ],
+      "brands": [
+        "TechPro", "ElectroMax", "DigiTech", "SmartLife", "FutureTech",
+        "NexGen", "PowerTech", "UltraSound", "QuantumTech", "CyberGear",
+        "TechNova", "EliteElectronics", "PrimeTech", "InnovateTech", "TechWave"
+      ],
+      "adjectives": [
+        "Pro", "Ultra", "Max", "Plus", "Elite", "Premium", "Advanced",
+        "Smart", "Wireless", "Portable", "High-Performance", "Professional",
+        "Gaming", "Studio", "Compact"
+      ]
+    },
+    "clothing": {
+      "names": [
+        "T-Shirt", "Jeans", "Dress", "Jacket", "Sweater",
+        "Hoodie", "Shorts", "Skirt", "Blazer", "Coat",
+        "Pants", "Shirt", "Blouse", "Suit", "Cardigan",
+        "Vest", "Leggings", "Sweatpants", "Polo Shirt", "Tank Top",
+        "Dress Shirt", "Cargo Pants", "Chinos", "Jumpsuit", "Romper",
+        "Windbreaker", "Raincoat", "Parka", "Peacoat", "Trench Coat",
+        "Scarf", "Hat", "Gloves", "Belt", "Tie",
+        "Socks", "Underwear", "Pajamas", "Bathrobe", "Swimsuit"
+      ],
+      "brands": [
+        "StyleCraft", "UrbanWear", "FashionForward", "TrendSet", "ModernThread",
+        "ChicStyle", "ComfortWear", "ActiveLife", "ElegantEdge", "CasualCo",
+        "PremiumFit", "EcoWear", "VintageVibes", "StreetSmart", "ClassicCut"
+      ],
+      "adjectives": [
+        "Classic", "Modern", "Vintage", "Slim Fit", "Regular Fit",
+        "Oversized", "Comfortable", "Stylish", "Premium", "Eco-Friendly",
+        "Organic", "Designer", "Athletic", "Casual", "Formal"
+      ]
+    },
+    "books": {
+      "names": [
+        "Mystery Novel", "Science Fiction", "Romance", "Thriller", "Fantasy Epic",
+        "Biography", "Self-Help Guide", "Cookbook", "History Book", "Travel Guide",
+        "Poetry Collection", "Graphic Novel", "Children's Book", "Young Adult", "Memoir",
+        "Business Book", "Programming Guide", "Art Book", "Photography Book", "Dictionary",
+        "Encyclopedia", "Textbook", "Workbook", "Journal", "Planner",
+        "Comic Book", "Manga", "Short Stories", "Essay Collection", "Philosophy",
+        "Psychology", "Science", "Mathematics", "Language Learning", "Reference",
+        "DIY Guide", "Gardening", "Fitness", "Nutrition", "Meditation"
+      ],
+      "authors": [
+        "J.K. Anderson", "Michael Chen", "Sarah Williams", "David Kumar", "Emily Zhang",
+        "Robert Taylor", "Maria Garcia", "James Wilson", "Lisa Brown", "John Martinez",
+        "Amanda Lee", "Christopher Moore", "Jennifer Davis", "William Thompson", "Patricia White"
+      ],
+      "publishers": [
+        "Penguin Books", "Random House", "HarperCollins", "Simon & Schuster", "Macmillan",
+        "Scholastic", "Oxford Press", "Cambridge Press", "Vintage", "Chronicle Books"
+      ]
+    },
+    "food": {
+      "names": [
+        "Organic Pasta", "Artisan Bread", "Gourmet Chocolate", "Premium Coffee", "Green Tea",
+        "Extra Virgin Olive Oil", "Raw Honey", "Almond Butter", "Quinoa", "Chia Seeds",
+        "Protein Bars", "Energy Drinks", "Smoothie Mix", "Granola", "Trail Mix",
+        "Dried Fruits", "Mixed Nuts", "Rice Cakes", "Protein Powder", "Vitamins",
+        "Herbal Tea", "Coconut Water", "Kombucha", "Craft Beer", "Wine",
+        "Cheese Selection", "Yogurt", "Plant Milk", "Frozen Pizza", "Ice Cream",
+        "Cookies", "Crackers", "Chips", "Salsa", "Hummus",
+        "Peanut Butter", "Jam", "Maple Syrup", "Hot Sauce", "Spice Mix"
+      ],
+      "brands": [
+        "NatureFresh", "OrganicLife", "GourmetKitchen", "HealthyChoice", "FarmFresh",
+        "PureNature", "WholeFoods", "ArtisanMade", "LocalHarvest", "GreenEarth",
+        "NutriPro", "VitalBoost", "CleanEats", "SuperFoods", "EarthBounty"
+      ],
+      "adjectives": [
+        "Organic", "Natural", "Gluten-Free", "Vegan", "Non-GMO",
+        "Sugar-Free", "Low-Fat", "High-Protein", "Keto-Friendly", "Paleo",
+        "Raw", "Artisan", "Gourmet", "Premium", "Fresh"
+      ]
+    },
+    "toys": {
+      "names": [
+        "Building Blocks", "Action Figure", "Doll", "Board Game", "Puzzle",
+        "Remote Control Car", "LEGO Set", "Stuffed Animal", "Play Kitchen", "Art Set",
+        "Science Kit", "Robot Toy", "Musical Instrument", "Toy Train", "Dollhouse",
+        "Water Gun", "Nerf Blaster", "Yo-Yo", "Kite", "Jump Rope",
+        "Hula Hoop", "Skateboard", "Scooter", "Bicycle", "Trampoline",
+        "Swing Set", "Sandbox", "Play Tent", "Costume", "Magic Set",
+        "Model Kit", "Craft Kit", "Slime Kit", "Bath Toys", "Baby Rattle",
+        "Educational Cards", "Memory Game", "Chess Set", "Rubik's Cube", "Fidget Toy"
+      ],
+      "brands": [
+        "FunTime", "PlayWorld", "ToyMaster", "KidZone", "HappyPlay",
+        "CreativeKids", "LearnPlay", "AdventureToys", "MegaFun", "SmartToys",
+        "EduPlay", "JoyLand", "WonderToys", "DreamPlay", "MagicBox"
+      ],
+      "ageGroups": [
+        "0-2 years", "3-5 years", "6-8 years", "9-12 years", "13+ years",
+        "All ages", "Toddler", "Preschool", "Elementary", "Teen"
+      ]
+    },
+    "home": {
+      "names": [
+        "Sofa", "Coffee Table", "Dining Table", "Office Chair", "Bookshelf",
+        "Bed Frame", "Mattress", "Dresser", "Nightstand", "Desk",
+        "Kitchen Knife Set", "Cookware Set", "Dinnerware", "Glassware", "Cutlery",
+        "Blender", "Coffee Maker", "Toaster", "Microwave", "Air Fryer",
+        "Vacuum Cleaner", "Mop", "Broom", "Storage Bins", "Hangers",
+        "Curtains", "Rug", "Throw Pillows", "Blanket", "Wall Art",
+        "Mirror", "Lamp", "Ceiling Fan", "Chandelier", "Clock",
+        "Vase", "Candles", "Picture Frame", "Plant Pot", "Decorative Bowl"
+      ],
+      "brands": [
+        "HomeStyle", "ModernLiving", "ComfortHome", "UrbanNest", "CozyCorner",
+        "DesignHouse", "LuxeLiving", "SimpleHome", "ElegantSpaces", "FreshHome",
+        "NaturalLiving", "SmartStorage", "CleanHome", "DecorPro", "StyleHaven"
+      ],
+      "styles": [
+        "Modern", "Contemporary", "Traditional", "Rustic", "Industrial",
+        "Scandinavian", "Bohemian", "Minimalist", "Farmhouse", "Mid-Century",
+        "Vintage", "Eclectic", "Coastal", "Art Deco", "Transitional"
+      ]
+    }
+  },
+  "conditions": ["New", "Like New", "Excellent", "Good", "Fair"],
+  "materials": [
+    "Cotton", "Polyester", "Leather", "Wood", "Metal", "Plastic",
+    "Glass", "Ceramic", "Stainless Steel", "Aluminum", "Carbon Fiber",
+    "Bamboo", "Recycled Materials", "Organic Cotton", "Synthetic"
+  ]
+}

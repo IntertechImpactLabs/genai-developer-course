@@ -1,0 +1,98 @@
+{
+  "types": [
+    "purchase", "refund", "payment", "withdrawal", "deposit",
+    "transfer", "subscription", "cancellation", "adjustment", "fee",
+    "interest", "cashback", "reward", "charge", "credit"
+  ],
+  "statuses": [
+    "completed", "pending", "processing", "failed", "cancelled",
+    "reversed", "disputed", "authorized", "settled", "refunded"
+  ],
+  "categories": [
+    "retail", "online", "subscription", "utility", "entertainment",
+    "food", "transport", "healthcare", "education", "travel",
+    "grocery", "gas", "insurance", "rent", "mortgage",
+    "investment", "savings", "donation", "tax", "salary"
+  ],
+  "merchants": [
+    "SuperMart", "TechStore", "FoodHub", "QuickShop", "MegaMall",
+    "OnlineMarket", "LocalStore", "ExpressShop", "CityCenter", "MainStreet",
+    "GlobalRetail", "FastFood", "CoffeePlus", "BookWorld", "PharmaCare",
+    "AutoParts", "HomeDepot", "ElectroWorld", "FashionHub", "SportsGear",
+    "GreenGrocer", "DigitalGoods", "CloudServices", "StreamingPlus", "GameCentral",
+    "FitnessFirst", "BeautyShop", "PetSupplies", "OfficeMax", "TravelAgency"
+  ],
+  "paymentMethods": [
+    "Credit Card", "Debit Card", "Bank Transfer", "PayPal", "Apple Pay",
+    "Google Pay", "Cash", "Check", "Wire Transfer", "Cryptocurrency",
+    "Venmo", "Zelle", "ACH", "Gift Card", "Store Credit"
+  ],
+  "currencies": [
+    {"code": "USD", "symbol": "$", "name": "US Dollar"},
+    {"code": "EUR", "symbol": "€", "name": "Euro"},
+    {"code": "GBP", "symbol": "£", "name": "British Pound"},
+    {"code": "JPY", "symbol": "¥", "name": "Japanese Yen"},
+    {"code": "CNY", "symbol": "¥", "name": "Chinese Yuan"},
+    {"code": "CAD", "symbol": "$", "name": "Canadian Dollar"},
+    {"code": "AUD", "symbol": "$", "name": "Australian Dollar"},
+    {"code": "CHF", "symbol": "Fr", "name": "Swiss Franc"},
+    {"code": "INR", "symbol": "₹", "name": "Indian Rupee"},
+    {"code": "SGD", "symbol": "$", "name": "Singapore Dollar"}
+  ],
+  "descriptions": {
+    "purchase": [
+      "Purchase at {merchant}",
+      "Online order #{orderId}",
+      "In-store purchase",
+      "Subscription renewal",
+      "Digital purchase"
+    ],
+    "refund": [
+      "Refund for order #{orderId}",
+      "Return processed",
+      "Cancellation refund",
+      "Price adjustment",
+      "Service refund"
+    ],
+    "payment": [
+      "Payment to {merchant}",
+      "Bill payment",
+      "Monthly subscription",
+      "Service payment",
+      "Invoice payment"
+    ],
+    "transfer": [
+      "Transfer to {account}",
+      "Internal transfer",
+      "Wire transfer",
+      "P2P transfer",
+      "Account transfer"
+    ],
+    "withdrawal": [
+      "ATM withdrawal",
+      "Cash withdrawal",
+      "Bank withdrawal",
+      "Counter withdrawal",
+      "Express withdrawal"
+    ],
+    "deposit": [
+      "Direct deposit",
+      "Cash deposit",
+      "Check deposit",
+      "Mobile deposit",
+      "Transfer deposit"
+    ]
+  },
+  "amountRanges": {
+    "micro": {"min": 0.99, "max": 9.99},
+    "small": {"min": 10, "max": 99.99},
+    "medium": {"min": 100, "max": 999.99},
+    "large": {"min": 1000, "max": 9999.99},
+    "xlarge": {"min": 10000, "max": 99999.99}
+  },
+  "riskLevels": ["low", "medium", "high", "critical"],
+  "regions": [
+    "North America", "Europe", "Asia Pacific", "Latin America", 
+    "Middle East", "Africa", "Australia", "Global"
+  ]
+}

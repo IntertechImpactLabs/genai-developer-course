@@ -1,0 +1,104 @@
+{
+  "streetNames": [
+    "Main", "Oak", "Maple", "Cedar", "Pine", "Elm", "Washington", "Park",
+    "First", "Second", "Third", "Fourth", "Fifth", "Market", "High",
+    "Church", "Spring", "North", "South", "East", "West", "Lake",
+    "Forest", "Hill", "Mountain", "River", "Valley", "Sunset", "Broadway",
+    "Central", "Union", "College", "School", "Garden", "Meadow", "Grove",
+    "Orchard", "Cherry", "Walnut", "Chestnut", "Birch", "Willow", "Laurel",
+    "Holly", "Magnolia", "Rose", "Vine", "Court", "Ridge", "Summit",
+    "Vista", "Highland", "Lakeside", "Riverside", "Hillside", "Parkside", "Bayview",
+    "Ocean", "Beach", "Shore", "Harbor", "Marina", "Wharf", "Pier"
+  ],
+  "streetTypes": [
+    "Street", "Avenue", "Road", "Boulevard", "Lane", "Drive", "Court",
+    "Place", "Way", "Circle", "Square", "Plaza", "Terrace", "Trail",
+    "Path", "Parkway", "Highway", "Alley", "Pass", "Row", "Walk"
+  ],
+  "cities": {
+    "US": [
+      {"name": "New York", "state": "NY", "zip": "10001"},
+      {"name": "Los Angeles", "state": "CA", "zip": "90001"},
+      {"name": "Chicago", "state": "IL", "zip": "60601"},
+      {"name": "Houston", "state": "TX", "zip": "77001"},
+      {"name": "Phoenix", "state": "AZ", "zip": "85001"},
+      {"name": "Philadelphia", "state": "PA", "zip": "19101"},
+      {"name": "San Antonio", "state": "TX", "zip": "78201"},
+      {"name": "San Diego", "state": "CA", "zip": "92101"},
+      {"name": "Dallas", "state": "TX", "zip": "75201"},
+      {"name": "San Jose", "state": "CA", "zip": "95101"},
+      {"name": "Austin", "state": "TX", "zip": "78701"},
+      {"name": "Jacksonville", "state": "FL", "zip": "32201"},
+      {"name": "Fort Worth", "state": "TX", "zip": "76101"},
+      {"name": "Columbus", "state": "OH", "zip": "43201"},
+      {"name": "Charlotte", "state": "NC", "zip": "28201"},
+      {"name": "San Francisco", "state": "CA", "zip": "94101"},
+      {"name": "Indianapolis", "state": "IN", "zip": "46201"},
+      {"name": "Seattle", "state": "WA", "zip": "98101"},
+      {"name": "Denver", "state": "CO", "zip": "80201"},
+      {"name": "Boston", "state": "MA", "zip": "02101"},
+      {"name": "Nashville", "state": "TN", "zip": "37201"},
+      {"name": "Detroit", "state": "MI", "zip": "48201"},
+      {"name": "Portland", "state": "OR", "zip": "97201"},
+      {"name": "Las Vegas", "state": "NV", "zip": "89101"},
+      {"name": "Memphis", "state": "TN", "zip": "38101"},
+      {"name": "Baltimore", "state": "MD", "zip": "21201"},
+      {"name": "Milwaukee", "state": "WI", "zip": "53201"},
+      {"name": "Albuquerque", "state": "NM", "zip": "87101"},
+      {"name": "Tucson", "state": "AZ", "zip": "85701"},
+      {"name": "Fresno", "state": "CA", "zip": "93701"},
+      {"name": "Sacramento", "state": "CA", "zip": "95801"},
+      {"name": "Atlanta", "state": "GA", "zip": "30301"},
+      {"name": "Miami", "state": "FL", "zip": "33101"},
+      {"name": "Minneapolis", "state": "MN", "zip": "55401"},
+      {"name": "Tampa", "state": "FL", "zip": "33601"},
+      {"name": "Cleveland", "state": "OH", "zip": "44101"},
+      {"name": "Pittsburgh", "state": "PA", "zip": "15201"},
+      {"name": "Cincinnati", "state": "OH", "zip": "45201"},
+      {"name": "St. Louis", "state": "MO", "zip": "63101"},
+      {"name": "Orlando", "state": "FL", "zip": "32801"}
+    ],
+    "international": [
+      {"name": "London", "country": "UK", "postalCode": "SW1A 1AA"},
+      {"name": "Paris", "country": "France", "postalCode": "75001"},
+      {"name": "Tokyo", "country": "Japan", "postalCode": "100-0001"},
+      {"name": "Berlin", "country": "Germany", "postalCode": "10115"},
+      {"name": "Sydney", "country": "Australia", "postalCode": "2000"},
+      {"name": "Toronto", "country": "Canada", "postalCode": "M5H 2N2"},
+      {"name": "Mumbai", "country": "India", "postalCode": "400001"},
+      {"name": "Singapore", "country": "Singapore", "postalCode": "018956"},
+      {"name": "Dubai", "country": "UAE", "postalCode": "00000"},
+      {"name": "Hong Kong", "country": "China", "postalCode": "999077"},
+      {"name": "Amsterdam", "country": "Netherlands", "postalCode": "1011"},
+      {"name": "Stockholm", "country": "Sweden", "postalCode": "111 20"},
+      {"name": "Copenhagen", "country": "Denmark", "postalCode": "1050"},
+      {"name": "Seoul", "country": "South Korea", "postalCode": "04524"},
+      {"name": "Shanghai", "country": "China", "postalCode": "200000"},
+      {"name": "Barcelona", "country": "Spain", "postalCode": "08001"},
+      {"name": "Rome", "country": "Italy", "postalCode": "00100"},
+      {"name": "Vienna", "country": "Austria", "postalCode": "1010"},
+      {"name": "Zurich", "country": "Switzerland", "postalCode": "8001"},
+      {"name": "Brussels", "country": "Belgium", "postalCode": "1000"}
+    ]
+  },
+  "buildingTypes": [
+    "Apartment", "Suite", "Unit", "Floor", "Office", "Room", "Building"
+  ],
+  "landmarks": [
+    "near Central Park", "by the River", "Downtown", "in the Financial District",
+    "near the Airport", "in Old Town", "by the Beach", "near the Stadium",
+    "in the Tech Hub", "near the University", "by the Lake", "in Midtown",
+    "near the Mall", "in the Arts District", "by the Harbor", "near the Station"
+  ],
+  "postalExtras": {
+    "US": {
+      "states": [
+        "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA",
+        "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD",
+        "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ",
+        "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC",
+        "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"
+      ]
+    }
+  }
+}

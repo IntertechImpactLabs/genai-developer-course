@@ -1,0 +1,78 @@
+{
+  "prefixes": [
+    "Global", "Premier", "Advanced", "Digital", "Smart", "Future", "Next", "Prime",
+    "Elite", "Pro", "Quantum", "Alpha", "Mega", "Ultra", "Core", "Peak", "Apex",
+    "Innovative", "Dynamic", "Strategic", "Creative", "Modern", "Tech", "Net", "Web",
+    "Cloud", "Data", "Cyber", "Virtual", "Mobile", "Express", "Rapid", "Swift",
+    "Bright", "Clear", "Pure", "Green", "Eco", "Bio", "Solar", "Sustainable"
+  ],
+  "suffixes": [
+    "Solutions", "Systems", "Technologies", "Services", "Group", "Corp", "Inc",
+    "Industries", "Enterprises", "Partners", "Associates", "Consulting", "Labs",
+    "Works", "Co", "Studio", "Agency", "Network", "Hub", "Center", "Institute",
+    "Dynamics", "Innovations", "Ventures", "Capital", "Holdings", "International",
+    "Global", "Direct", "Plus", "Pro", "Tech", "Soft", "Ware", "Logic", "Matrix"
+  ],
+  "industries": [
+    "Technology", "Healthcare", "Finance", "Retail", "Manufacturing",
+    "Education", "Energy", "Transportation", "Real Estate", "Entertainment",
+    "Telecommunications", "Agriculture", "Construction", "Hospitality", "Insurance",
+    "Pharmaceuticals", "Automotive", "Aerospace", "Media", "Food & Beverage",
+    "Logistics", "Consulting", "Legal", "Marketing", "E-commerce",
+    "Software Development", "Cloud Services", "Cybersecurity", "AI & Machine Learning", "Biotechnology",
+    "Renewable Energy", "Gaming", "Fashion", "Sports", "Non-profit"
+  ],
+  "companyTypes": [
+    "Corporation", "LLC", "Partnership", "Sole Proprietorship", "Non-profit",
+    "Startup", "Enterprise", "SMB", "Multinational", "Franchise"
+  ],
+  "sizes": [
+    "1-10 employees", "11-50 employees", "51-200 employees", "201-500 employees",
+    "501-1000 employees", "1001-5000 employees", "5001-10000 employees", "10000+ employees"
+  ],
+  "values": [
+    "Innovation", "Excellence", "Integrity", "Sustainability", "Customer Focus",
+    "Quality", "Teamwork", "Trust", "Transparency", "Growth",
+    "Diversity", "Inclusion", "Responsibility", "Efficiency", "Creativity",
+    "Leadership", "Collaboration", "Passion", "Respect", "Accountability"
+  ],
+  "products": [
+    "Software Platform", "Mobile App", "SaaS Solution", "Cloud Infrastructure", "Analytics Tool",
+    "CRM System", "ERP Software", "Payment Gateway", "Security Suite", "AI Assistant",
+    "IoT Device", "Blockchain Platform", "E-commerce Platform", "Content Management", "Marketing Automation",
+    "Healthcare Device", "Financial Service", "Educational Platform", "Streaming Service", "Social Network",
+    "Productivity Tool", "Design Software", "Development Framework", "API Service", "Data Platform"
+  ],
+  "locations": {
+    "cities": [
+      "San Francisco", "New York", "London", "Tokyo", "Singapore",
+      "Berlin", "Paris", "Toronto", "Sydney", "Mumbai",
+      "Shanghai", "Dubai", "Amsterdam", "Stockholm", "Seoul",
+      "Boston", "Austin", "Seattle", "Los Angeles", "Chicago",
+      "Denver", "Miami", "Atlanta", "Dallas", "Phoenix",
+      "Vancouver", "Montreal", "Mexico City", "São Paulo", "Buenos Aires",
+      "Madrid", "Barcelona", "Rome", "Milan", "Munich",
+      "Zurich", "Geneva", "Vienna", "Copenhagen", "Oslo",
+      "Helsinki", "Dublin", "Tel Aviv", "Cairo", "Lagos",
+      "Johannesburg", "Nairobi", "Bangkok", "Jakarta", "Manila",
+      "Hong Kong", "Taipei", "Bangalore", "Delhi", "Hyderabad"
+    ],
+    "countries": [
+      "United States", "United Kingdom", "Canada", "Germany", "France",
+      "Japan", "China", "India", "Australia", "Singapore",
+      "Netherlands", "Switzerland", "Sweden", "Norway", "Denmark",
+      "Spain", "Italy", "Belgium", "Austria", "Finland",
+      "Ireland", "Israel", "United Arab Emirates", "South Korea", "Brazil",
+      "Mexico", "Argentina", "Chile", "Colombia", "South Africa",
+      "Egypt", "Kenya", "Nigeria", "Thailand", "Indonesia",
+      "Malaysia", "Philippines", "Vietnam", "Poland", "Czech Republic"
+    ]
+  },
+  "departments": [
+    "Engineering", "Sales", "Marketing", "Human Resources", "Finance",
+    "Operations", "Customer Service", "Product Management", "Design", "Legal",
+    "IT", "Research & Development", "Quality Assurance", "Business Development", "Support",
+    "Logistics", "Procurement", "Analytics", "Security", "Compliance",
+    "Strategy", "Communications", "Training", "Facilities", "Administration"
+  ]
+}
