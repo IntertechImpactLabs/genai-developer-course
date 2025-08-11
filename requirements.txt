@@ -1,6 +1,6 @@
 # Core dependencies
 python-dotenv>=1.0.0
-pytest>=7.4.0
+pytest==8.3.2
 
 # For RAG exercises (Section 2)
 jupyter>=1.0.0
@@ -32,7 +32,8 @@ mypy>=1.5.0
 
 # For testing
 pytest-cov>=4.1.0
-pytest-asyncio>=0.21.0
+pytest-asyncio==0.24.0
+pytest-mock==3.14.0
 
 # For rich terminal output
 rich>=13.5.0
