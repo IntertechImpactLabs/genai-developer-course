@@ -1,0 +1,86 @@
+{
+  "products": [
+    {
+      "name": "TurboCache Pro",
+      "description": "Lightning-fast in-memory caching solution with sub-millisecond latency",
+      "features": [
+        "10GB capacity",
+        "LRU eviction",
+        "distributed mode",
+        "Redis compatible"
+      ],
+      "keywords": [
+        "speed",
+        "fast",
+        "performance",
+        "cache",
+        "memory",
+        "quick",
+        "turbo"
+      ],
+      "price": "$99/month",
+      "category": "Performance"
+    },
+    {
+      "name": "SecureVault Enterprise",
+      "description": "Military-grade encryption for sensitive data protection",
+      "features": [
+        "AES-256 encryption",
+        "biometric auth",
+        "SOC2 compliant",
+        "key rotation"
+      ],
+      "keywords": [
+        "security",
+        "encryption",
+        "protection",
+        "vault",
+        "safe",
+        "secure",
+        "privacy"
+      ],
+      "price": "$199/month",
+      "category": "Security"
+    },
+    {
+      "name": "CloudSync Manager",
+      "description": "Real-time data synchronization across cloud platforms",
+      "features": [
+        "Multi-cloud support",
+        "version control",
+        "1TB storage",
+        "automatic backups"
+      ],
+      "keywords": [
+        "sync",
+        "cloud",
+        "backup",
+        "storage",
+        "synchronization",
+        "replication"
+      ],
+      "price": "$149/month",
+      "category": "Storage"
+    },
+    {
+      "name": "DataFlow Analytics",
+      "description": "Stream processing and real-time analytics platform",
+      "features": [
+        "Apache Kafka integration",
+        "ML pipelines",
+        "custom dashboards",
+        "alerting"
+      ],
+      "keywords": [
+        "analytics",
+        "data",
+        "streaming",
+        "metrics",
+        "insights",
+        "dashboard"
+      ],
+      "price": "$299/month",
+      "category": "Analytics"
+    }
+  ]
+}

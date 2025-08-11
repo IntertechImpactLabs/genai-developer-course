@@ -1,0 +1,8 @@
+# Requirements for RAG exercise
+jupyter>=1.0.0
+notebook>=7.0.0
+ipykernel>=6.0.0
+
+# Optional: If students want to try the semantic search bonus
+# openai>=1.0.0
+# numpy>=1.24.0
