@@ -6,7 +6,8 @@
     "ghcr.io/devcontainers/features/node:1": {},
     "ghcr.io/devcontainers/features/dotnet:2": {},
     "ghcr.io/devcontainers/features/git-lfs:1": {},
-    "ghcr.io/swift-server-community/swift-devcontainer-features/sqlite:1": {}
+    "ghcr.io/swift-server-community/swift-devcontainer-features/sqlite:1": {},
+    "ghcr.io/devcontainers/features/github-cli:1": {}
   },
   "workspaceMount": "source=${localWorkspaceFolder}/..,target=/workspaces,type=bind,consistency=cached",
   "workspaceFolder": "/workspaces/genai-developer-course",
