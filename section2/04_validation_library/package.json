@@ -1,0 +1,18 @@
+{
+  "name": "validation-library-exercise",
+  "version": "1.0.0",
+  "description": "Section 2B Exercise: Iterative Prompt Refinement",
+  "main": "validation.js",
+  "scripts": {
+    "test": "node test.js",
+    "start": "node validation.js"
+  },
+  "keywords": [
+    "validation",
+    "prompt-engineering",
+    "iterative-refinement",
+    "genai"
+  ],
+  "author": "",
+  "license": "MIT"
+}
