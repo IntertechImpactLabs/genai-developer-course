@@ -1,2 +1,39 @@
+# Core dependencies
 python-dotenv>=1.0.0
 pytest>=7.4.0
+
+# For RAG exercises (Section 2)
+jupyter>=1.0.0
+notebook>=7.0.0
+ipykernel>=6.0.0
+numpy>=1.24.0
+
+# For AI/LLM interactions
+openai>=1.0.0
+anthropic>=0.18.0
+
+# For data processing and analysis
+pandas>=2.0.0
+matplotlib>=3.7.0
+seaborn>=0.12.0
+
+# For web requests and API demos
+requests>=2.31.0
+httpx>=0.25.0
+
+# For JSON and YAML processing
+pyyaml>=6.0.0
+
+# Development tools
+ipython>=8.12.0
+black>=23.0.0
+flake8>=6.0.0
+mypy>=1.5.0
+
+# For testing
+pytest-cov>=4.1.0
+pytest-asyncio>=0.21.0
+
+# For rich terminal output
+rich>=13.5.0
+click>=8.1.0

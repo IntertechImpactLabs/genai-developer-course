@@ -6,7 +6,7 @@ Demonstrate why LLMs need tools to perform actions beyond text generation.
 ## Demo Structure
 
 This demo progressively shows:
-1. LLM limitations without tools (hallucinated weather data)
+1. LLM limitations without tools
 2. Adding tool definitions (but no execution)
 3. Mock tool execution to show complete flow
 4. How this relates to GitHub Copilot and Claude Code
