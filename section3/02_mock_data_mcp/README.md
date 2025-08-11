@@ -14,11 +14,6 @@ npm install
 npm run build
 ```
 
-3. Run tests to verify your implementation:
-```bash
-npm test
-```
-
 ## Your Task
 
 Complete the implementation in `src/index.ts`:
@@ -35,8 +30,6 @@ Complete the implementation in `src/index.ts`:
    - `generateTransactions(args)` - Create transaction records
    - `generateApiResponse(args)` - Create API response mocks
 
-3. **Write tests** in `tests/index.test.ts` to verify your implementation
-
 ## Development
 
 ```bash
@@ -46,11 +39,11 @@ npm run dev
 # Build for production
 npm run build
 
-# Run tests
-npm test
+# Run the built server
+npm start
 
-# Watch mode for tests
-npm run test:watch
+# Clean build files
+npm run clean
 ```
 
 ## Configuration
@@ -86,13 +79,6 @@ claude mcp add mock-data /absolute/path/to/02_mock_data_mcp/dist/index.js
 - Remember to handle the `count` parameter to limit results
 - Return data as JSON strings in the content array
 - Add proper error handling for invalid inputs
-
-## Testing
-
-The test file includes placeholders for all the functions you need to implement. Write tests to ensure:
-- Correct number of items generated
-- Optional parameters work correctly
-- Data validation and limits are enforced
 
 ## Need Help?
 
