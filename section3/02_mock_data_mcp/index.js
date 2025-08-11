@@ -1,7 +1,10 @@
 #!/usr/bin/env node
 import { Server } from "@modelcontextprotocol/sdk/server/index.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
-import crypto from "crypto";
+import {
+  CallToolRequestSchema,
+  ListToolsRequestSchema
+} from "@modelcontextprotocol/sdk/types.js";
 import fs from "fs/promises";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -10,125 +13,29 @@ import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Data type interfaces
-interface UserData {
-  firstNames: string[];
-  lastNames: string[];
-  emailDomains: string[];
-  departments: string[];
-  jobTitles: string[];
-}
-
-interface AddressData {
-  streetNames: string[];
-  streetTypes: string[];
-  cities: {
-    US: Array<{
-      name: string;
-      state: string;
-      zip: string;
-    }>;
-    international: Array<{
-      name: string;
-      country: string;
-      postalCode: string;
-    }>;
-  };
-  buildingTypes: string[];
-  landmarks: string[];
-}
-
-interface CompanyData {
-  prefixes: string[];
-  suffixes: string[];
-  industries: string[];
-  companyTypes: string[];
-  sizes: string[];
-  values: string[];
-  products: string[];
-  locations: {
-    cities: string[];
-    countries: string[];
-  };
-  departments: string[];
-}
-
-interface ProductData {
-  categories: Record<string, {
-    names: string[];
-    brands: string[];
-    adjectives?: string[];
-    ageGroups?: string[];
-    styles?: string[];
-  }>;
-  conditions: string[];
-  materials: string[];
-}
-
-interface TransactionData {
-  types: string[];
-  statuses: string[];
-  categories: string[];
-  merchants: string[];
-  paymentMethods: string[];
-  currencies: Array<{
-    code: string;
-    symbol: string;
-    name: string;
-  }>;
-  descriptions: Record<string, string[]>;
-  amountRanges: Record<string, {
-    min: number;
-    max: number;
-  }>;
-}
-
 // Load mock data files
-let userData: UserData;
-let productData: ProductData;
-let companyData: CompanyData;
-let addressData: AddressData;
-let transactionData: TransactionData;
+let userData;
+let productData;
+let companyData;
+let addressData;
+let transactionData;
 
 async function loadMockData() {
   try {
-    const dataDir = path.join(__dirname, '../data');
-    
+    const dataDir = path.join(__dirname, 'data');
+
     userData = JSON.parse(await fs.readFile(path.join(dataDir, 'users.json'), 'utf-8'));
     productData = JSON.parse(await fs.readFile(path.join(dataDir, 'products.json'), 'utf-8'));
     companyData = JSON.parse(await fs.readFile(path.join(dataDir, 'companies.json'), 'utf-8'));
     addressData = JSON.parse(await fs.readFile(path.join(dataDir, 'addresses.json'), 'utf-8'));
     transactionData = JSON.parse(await fs.readFile(path.join(dataDir, 'transactions.json'), 'utf-8'));
-    
+
     console.error("Mock data files loaded successfully");
   } catch (error) {
     console.error("Error loading mock data files:", error);
     console.error("Make sure data files exist in the data/ directory");
     process.exit(1);
   }
-}
-
-// Type definitions
-interface GenerateUsersArgs {
-  count: number;
-  includeAddress?: boolean;
-  includeCompany?: boolean;
-}
-
-interface GenerateProductsArgs {
-  count: number;
-  category?: string;
-}
-
-interface GenerateTransactionsArgs {
-  count: number;
-  dateRange?: string;
-}
-
-interface GenerateApiResponseArgs {
-  endpoint: string;
-  status: number;
-  dataType?: string;
 }
 
 // Create the MCP server instance
@@ -151,7 +58,7 @@ const server = new Server(
 // 3. generate_transactions - Generate mock transaction data
 // 4. generate_api_response - Generate mock API responses
 
-server.setRequestHandler("tools/list" as any, async () => ({
+server.setRequestHandler(ListToolsRequestSchema, async () => ({
   tools: [
     // TODO: Add your tool definitions here
     // Example structure:
@@ -167,7 +74,7 @@ server.setRequestHandler("tools/list" as any, async () => ({
             minimum: 1,
             maximum: 100,
           },
-          // TODO: Add more parameters
+          // TODO: Add more parameters (includeAddress, includeCompany)
         },
         required: ["count"],
       },
@@ -177,17 +84,17 @@ server.setRequestHandler("tools/list" as any, async () => ({
 }));
 
 // Handle tool execution
-server.setRequestHandler("tools/call" as any, async (request: any) => {
+server.setRequestHandler(CallToolRequestSchema, async (request) => {
   const { name, arguments: args } = request.params;
 
   try {
     switch (name) {
       case "generate_users":
         // TODO: Implement generateUsers function
-        return await generateUsers(args as GenerateUsersArgs);
-      
+        return await generateUsers(args);
+
       // TODO: Add cases for other tools
-      
+
       default:
         throw new Error(`Unknown tool: ${name}`);
     }
@@ -196,7 +103,7 @@ server.setRequestHandler("tools/call" as any, async (request: any) => {
       content: [
         {
           type: "text",
-          text: `Error: ${(error as Error).message}`,
+          text: `Error: ${error.message}`,
         },
       ],
     };
@@ -204,23 +111,23 @@ server.setRequestHandler("tools/call" as any, async (request: any) => {
 });
 
 // Helper functions
-function getRandomItem<T>(array: T[]): T {
+function getRandomItem(array) {
   return array[Math.floor(Math.random() * array.length)];
 }
 
-function getRandomNumber(min: number, max: number): number {
+function getRandomNumber(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function getRandomFloat(min: number, max: number, decimals: number = 2): number {
+function getRandomFloat(min, max, decimals = 2) {
   return parseFloat((Math.random() * (max - min) + min).toFixed(decimals));
 }
 
-function generateAddress(useInternational: boolean = false) {
+function generateAddress(useInternational = false) {
   const streetNumber = getRandomNumber(1, 9999);
   const streetName = getRandomItem(addressData.streetNames);
   const streetType = getRandomItem(addressData.streetTypes);
-  
+
   if (useInternational) {
     const city = getRandomItem(addressData.cities.international);
     return {
@@ -242,13 +149,13 @@ function generateAddress(useInternational: boolean = false) {
 
 // TODO: Implement mock data generator functions
 
-async function generateUsers(args: GenerateUsersArgs) {
+async function generateUsers(args) {
   // TODO: Implement user generation using the loaded data
   // Should return an object with content array containing generated users
-  
-  const users: any[] = [];
+
+  const users = [];
   const count = Math.min(args.count || 5, 100);
-  
+
   // TODO: Generate users with data from userData:
   // - id (use crypto.randomUUID())
   // - firstName from userData.firstNames
@@ -258,7 +165,7 @@ async function generateUsers(args: GenerateUsersArgs) {
   // - createdAt
   // - Optional: address if args.includeAddress is true
   // - Optional: company info if args.includeCompany is true
-  
+
   return {
     content: [
       {
@@ -270,19 +177,19 @@ async function generateUsers(args: GenerateUsersArgs) {
 }
 
 // TODO: Implement generateProducts function
-// async function generateProducts(args: GenerateProductsArgs) { ... }
+// async function generateProducts(args) { ... }
 
 // TODO: Implement generateTransactions function
-// async function generateTransactions(args: GenerateTransactionsArgs) { ... }
+// async function generateTransactions(args) { ... }
 
 // TODO: Implement generateApiResponse function
-// async function generateApiResponse(args: GenerateApiResponseArgs) { ... }
+// async function generateApiResponse(args) { ... }
 
 // Start the server
 async function startServer() {
   // Load mock data first
   await loadMockData();
-  
+
   const transport = new StdioServerTransport();
   await server.connect(transport);
   console.error("Mock Data MCP Server started");
