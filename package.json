@@ -1,0 +1,27 @@
+{
+  "name": "genai-developer-course",
+  "version": "1.0.0",
+  "description": "GenAI Developer Course workspace",
+  "private": true,
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "format": "black .",
+    "build": "npm run build --workspaces --if-present"
+  },
+  "workspaces": [
+    "section1/03_currency_formatter_exercise",
+    "section2/02_cache_helper_exercise",
+    "section3/01_refactoring_demo"
+  ],
+  "devDependencies": {
+    "@types/jest": "^29.5.12",
+    "@types/node": "^20.11.30",
+    "jest": "^29.7.0",
+    "supertest": "^6.3.3",
+    "ts-jest": "^29.1.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.3"
+  }
+}

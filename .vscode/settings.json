@@ -1,12 +1,2 @@
 {
-  "jest.virtualFolders": [
-    {
-      "name": "currency-formatter",
-      "rootPath": "section1/03_currency_formatter"
-    },
-    {
-      "name": "cache-helper", 
-      "rootPath": "section2/02_cache_helper"
-    }
-  ]
 }
