@@ -2,6 +2,13 @@ const express = require('express');
 const router = express.Router();
 const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
+const {
+  createUserValidation,
+  updateUserValidation,
+  getUserValidation,
+  handleValidationErrors,
+  rateLimit
+} = require('../middleware/validation');
 
 // Direct database connection in route file (anti-pattern)
 const dbPath = path.join(__dirname, '..', '..', 'database.db');
@@ -21,7 +28,7 @@ router.get('/', (req, res) => {
 });
 
 // GET user by ID - database logic directly in route
-router.get('/:id', (req, res) => {
+router.get('/:id', getUserValidation, handleValidationErrors, (req, res) => {
   const { id } = req.params;
   const sql = 'SELECT id, username, email, created_at FROM users WHERE id = ?';
   
@@ -38,13 +45,10 @@ router.get('/:id', (req, res) => {
 });
 
 // POST create new user - database logic directly in route
-router.post('/', (req, res) => {
+router.post('/', rateLimit, createUserValidation, handleValidationErrors, (req, res) => {
   const { username, email, password } = req.body;
   
-  if (!username || !email || !password) {
-    return res.status(400).json({ error: 'Missing required fields' });
-  }
-  
+  // Remove manual validation as it's now handled by middleware
   const sql = 'INSERT INTO users (username, email, password) VALUES (?, ?, ?)';
   
   db.run(sql, [username, email, password], function(err) {
@@ -69,12 +73,16 @@ router.post('/', (req, res) => {
 });
 
 // PUT update user - database logic directly in route
-router.put('/:id', (req, res) => {
+router.put('/:id', rateLimit, updateUserValidation, handleValidationErrors, (req, res) => {
   const { id } = req.params;
   const { username, email } = req.body;
   
+  // Updated validation: at least one field must be provided
   if (!username && !email) {
-    return res.status(400).json({ error: 'No fields to update' });
+    return res.status(400).json({ 
+      error: 'Validation failed',
+      details: [{ field: 'body', message: 'At least one field (username or email) must be provided' }]
+    });
   }
   
   let sql = 'UPDATE users SET ';
@@ -118,7 +126,7 @@ router.put('/:id', (req, res) => {
 });
 
 // DELETE user - database logic directly in route
-router.delete('/:id', (req, res) => {
+router.delete('/:id', getUserValidation, handleValidationErrors, (req, res) => {
   const { id } = req.params;
   const sql = 'DELETE FROM users WHERE id = ?';
   

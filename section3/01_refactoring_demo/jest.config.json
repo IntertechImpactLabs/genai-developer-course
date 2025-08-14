@@ -1,0 +1,12 @@
+{
+  "displayName": "Refactoring Demo Validation Tests",
+  "testEnvironment": "node",
+  "roots": ["<rootDir>/tests"],
+  "testMatch": ["**/*.test.js"],
+  "coverageDirectory": "coverage",
+  "collectCoverageFrom": [
+    "src/middleware/**/*.js",
+    "!src/middleware/**/index.js"
+  ],
+  "setupFilesAfterEnv": ["<rootDir>/tests/setup.js"]
+}
