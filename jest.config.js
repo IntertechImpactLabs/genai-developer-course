@@ -24,6 +24,11 @@ module.exports = {
       displayName: 'refactoring-demo',
       testMatch: ['<rootDir>/section3/01_refactoring_demo/**/*.test.js'],
       testEnvironment: 'node'
+    },
+    {
+      displayName: 'validation-library',
+      testMatch: ['<rootDir>/section2/04_validation_library/**/*.test.js'],
+      testEnvironment: 'node'
     }
   ],
   collectCoverageFrom: [
