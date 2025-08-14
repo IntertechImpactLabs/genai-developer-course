@@ -26,6 +26,22 @@ Authorization: Bearer {{openai-key}}
   "max_tokens": 200
 }
 
+###
+# Knowledge cutoff date
+POST https://api.openai.com/v1/chat/completions
+Content-Type: application/json
+Authorization: Bearer {{openai-key}}
+
+{
+  "model": "gpt-4o",
+  "messages": [
+    {
+      "role": "user", 
+      "content": "What is your knowledge cutoff date?"
+    }
+  ]
+}
+
 ### 
 ### Expected Response: LLM will say it can't access real-time data
 ### 
