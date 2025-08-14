@@ -25,16 +25,6 @@ Complete the implementation in `index.js`:
    - `generateTransactions(args)` - Create transaction records
    - `generateApiResponse(args)` - Create API response mocks
 
-## Run the Server
-
-```bash
-# Start the server
-npm start
-
-# Make the file executable (if needed)
-chmod +x index.js
-```
-
 ## Configuration
 
 ### For GitHub Copilot Chat
@@ -75,7 +65,3 @@ The following data is loaded from JSON files:
 - `companyData` - prefixes, suffixes, industries, locations
 - `addressData` - streetNames, streetTypes, US and international cities
 - `transactionData` - types, statuses, merchants, currencies
-
-## Need Help?
-
-Refer to the complete implementation in the course materials `hands-on-exercise.md` if you get stuck!
