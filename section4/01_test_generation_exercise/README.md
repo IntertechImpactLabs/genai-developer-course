@@ -13,17 +13,22 @@ Your team needs comprehensive test coverage for the `PaymentProcessor` class. Ma
 
 ## Setup
 
-1. Review the payment processor implementation in `payment_processor.py`
-
-2. Dependencies are already installed via the root `requirements.txt`. If needed:
+1. Dependencies are already installed via the root `requirements.txt`. If needed:
    ```bash
    # From the repository root
    pip install -r requirements.txt
    ```
 
+2. Activate the Python virtual environment:
+   1. In VS Code open the Command Palette (Ctrl+Shift+P)
+   2. Search for "Python: Select Interpreter"
+   3. Choose the virtual environment "Python 3.11.13 (.venv) ./.venv/python         Recommended"
+
+3. Review the payment processor implementation in `payment_processor.py`
+
 ## Part 1: Unit Test Generation (12 minutes)
 
-### Use GPT-4.1 or Claude 3.7 for Standard Unit Tests
+### Use GPT-4.1 or GPT-5 mini for Standard Unit Tests
 
 Generate comprehensive unit tests covering:
 - Each method individually with mocked dependencies
@@ -34,7 +39,7 @@ Generate comprehensive unit tests covering:
 
 **Save your tests to:** `test_payment_processor.py`
 
-**Example to build on:** See `example_tests.py` for working examples
+**Example to build on:** See `test_examples.py` for working examples
 
 ### Metrics to Track
 - Number of test cases generated
@@ -44,7 +49,7 @@ Generate comprehensive unit tests covering:
 
 ## Part 2: Security Test Generation (15 minutes)
 
-### Use o4-mini or o3 for Security-Aware Tests
+### Use GPT-5 or Claude Sonnet for Security-Aware Tests
 
 Generate tests that check for:
 1. Input validation (ensure proper sanitization)
