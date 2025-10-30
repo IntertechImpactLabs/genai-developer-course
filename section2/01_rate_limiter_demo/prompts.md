@@ -34,11 +34,10 @@ Include comprehensive error handling and logging.
 1. **Context**: Specifies Express.js and authentication use case
 2. **Role**: Leverages model's knowledge as senior developer
 3. **Specific Requirements**: Clear rate limits and lockout rules
-4. **Technology Stack**: Explicitly mentions Redis for distributed systems
-5. **Production Features**: Admin bypass, error handling, logging
-6. **Usage Example**: Shows expected API interface
+4. **Production Features**: Admin bypass, error handling, logging
+5. **Usage Example**: Shows expected API interface
 
 ### Expected Differences in Output:
 
 - **Basic**: Generic in-memory rate limiter, minimal features
-- **Advanced**: Production-ready Redis-based solution with full error handling
+- **Advanced**: Production-ready solution with error handling
