@@ -21,10 +21,12 @@ Create a rate limiter middleware that:
 - Provides clear error messages
 - Includes bypass for admin IPs
 
-Example usage pattern:
-app.post('/login', rateLimiter({ type: 'login' }), authController.login);
+Use the rate limiter middleware in the existing API.
 
 Include comprehensive error handling and logging.
+
+Example usage pattern:
+app.post('/login', rateLimiter({ type: 'login' }), authController.login);
 ```
 
 ## Teaching Points
