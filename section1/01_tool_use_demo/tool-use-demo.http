@@ -5,6 +5,9 @@
 # - Set OPENAI_API_KEY environment variable
 
 @openai-key={{$dotenv OPENAI_API_KEY}}
+@model=gpt-4.1
+# @model=gpt-5-nano
+# @model=gpt-5
 
 ### Part 1: ChatGPT WITHOUT Tools
 # Ask about current weather - LLM can't access real data
@@ -16,14 +19,13 @@ Content-Type: application/json
 Authorization: Bearer {{openai-key}}
 
 {
-  "model": "gpt-4o",
+  "model": "{{model}}",
   "messages": [
     {
       "role": "user", 
       "content": "What's the current weather like in San Francisco? I need the temperature and conditions."
     }
-  ],
-  "max_tokens": 200
+  ]
 }
 
 ###
@@ -33,7 +35,7 @@ Content-Type: application/json
 Authorization: Bearer {{openai-key}}
 
 {
-  "model": "gpt-4o",
+  "model": "{{model}}",
   "messages": [
     {
       "role": "user", 
@@ -56,7 +58,7 @@ Content-Type: application/json
 Authorization: Bearer {{openai-key}}
 
 {
-  "model": "gpt-4o",
+  "model": "{{model}}",
   "messages": [
     {
       "role": "user",
@@ -125,7 +127,7 @@ Content-Type: application/json
 Authorization: Bearer {{$dotenv OPENAI_API_KEY}}
 
 {
-  "model": "gpt-4o",
+  "model": "{{model}}",
   "messages": [
     {
       "role": "user",
@@ -166,7 +168,7 @@ Content-Type: application/json
 Authorization: Bearer {{$dotenv OPENAI_API_KEY}}
 
 {
-  "model": "gpt-4o",
+  "model": "{{model}}",
   "messages": [
     {
       "role": "user",
@@ -209,8 +211,7 @@ Content-Type: application/json
 Authorization: Bearer {{$dotenv OPENAI_API_KEY}}
 
 {
-  "model": "gpt-4o",
-  "temperature": 0.9,
+  "model": "{{model}}",
   "messages": [
     {
       "role": "system",
@@ -252,7 +253,27 @@ Authorization: Bearer {{$dotenv OPENAI_API_KEY}}
       "tool_call_id": "call_ny456",
       "content": "{\"location\": \"New York, NY\", \"temperature\": 88, \"condition\": \"hot and humid\", \"humidity\": 78, \"wind_speed\": 5}"
     }
-  ]
+  ],
+  "tools": [
+    {
+      "type": "function",
+      "function": {
+        "name": "get_weather",
+        "description": "Get current weather information for a specified city",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "city": {
+              "type": "string",
+              "description": "The city name"
+            }
+          },
+          "required": ["city"]
+        }
+      }
+    }
+  ],
+  "tool_choice": "auto"
 }
 
 ###
