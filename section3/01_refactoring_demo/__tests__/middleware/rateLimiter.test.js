@@ -80,15 +80,17 @@ describe('Rate Limiter Tests', () => {
   });
 
   describe('Rate Limiter Configuration', () => {
-    test('should use different limits for API and validation errors', () => {
-      const { apiLimiter, validationErrorLimiter } = require('../../src/middleware/rateLimiter');
+    test('should use different limits for different endpoint types', () => {
+      const { apiLimiter, authLimiter, mutationLimiter } = require('../../src/middleware/rateLimiter');
       
       expect(apiLimiter).toBeDefined();
-      expect(validationErrorLimiter).toBeDefined();
+      expect(authLimiter).toBeDefined();
+      expect(mutationLimiter).toBeDefined();
       
-      // Both should be functions (middleware)
+      // All should be functions (middleware)
       expect(typeof apiLimiter).toBe('function');
-      expect(typeof validationErrorLimiter).toBe('function');
+      expect(typeof authLimiter).toBe('function');
+      expect(typeof mutationLimiter).toBe('function');
     });
   });
 });
