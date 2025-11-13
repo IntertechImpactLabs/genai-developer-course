@@ -1,9 +1,16 @@
 const express = require('express');
 const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
+const { apiLimiter } = require('./middleware/rateLimiter');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+// Enable trust proxy for production deployments behind reverse proxies
+// This allows rate limiting to work correctly with X-Forwarded-For headers
+if (process.env.NODE_ENV === 'production') {
+  app.set('trust proxy', 1);
+}
 
 // Database connection
 const dbPath = path.join(__dirname, '..', 'database.db');
@@ -11,6 +18,9 @@ const db = new sqlite3.Database(dbPath);
 
 // Middleware
 app.use(express.json());
+
+// Apply rate limiting to all API routes
+app.use('/api/', apiLimiter);
 
 // Import routes (with scattered database logic)
 const userRoutes = require('./routes/users');

@@ -4,6 +4,12 @@
 
 This is a sample Express.js application demonstrating **anti-patterns** with database queries scattered throughout route handlers. This application is intentionally designed to be refactored during the Section 3A demo to showcase how AI assistants can help with multi-file refactoring tasks.
 
+**Security Features Implemented:**
+- Comprehensive input validation using express-validator
+- XSS protection through HTML sanitization
+- SQL injection prevention via parameterized queries
+- Rate limiting to prevent abuse and brute force attacks
+
 ## Anti-Patterns Present
 
 1. **Direct database connections in route files** - Each route file creates its own database connection
@@ -32,6 +38,52 @@ npm start
 
 # Or run in development mode with auto-reload
 npm run dev
+```
+
+## Security Features
+
+### Input Validation
+
+All API endpoints have comprehensive input validation:
+
+- **Email Validation**: RFC 5322 compliant email format
+- **Password Requirements**: Minimum 8 characters with uppercase, lowercase, and numbers
+- **Input Sanitization**: HTML/script tags removed from all string inputs
+- **Type Validation**: Strict type checking for all parameters
+- **Range Validation**: Numeric values validated against acceptable ranges
+- **Whitespace Trimming**: Automatic whitespace removal from inputs
+- **Email Normalization**: Emails converted to lowercase for consistency
+
+### Rate Limiting
+
+Rate limiting is applied to prevent abuse:
+
+- **API Rate Limit**: 100 requests per 15 minutes per IP
+- **Validation Error Rate Limit**: 50 validation errors per 15 minutes per IP
+- **Headers**: Standard `RateLimit-*` headers included in responses
+- **Production Mode**: Enable `trust proxy` in production for proper IP detection
+
+Rate limit exceeded responses return:
+```json
+{
+  "error": "Too many requests from this IP, please try again later.",
+  "retryAfter": "15 minutes"
+}
+```
+
+### Validation Error Format
+
+All validation errors return 400 Bad Request with consistent format:
+```json
+{
+  "error": "Validation failed",
+  "details": [
+    {
+      "field": "email",
+      "message": "Invalid email format"
+    }
+  ]
+}
 ```
 
 ## API Endpoints
