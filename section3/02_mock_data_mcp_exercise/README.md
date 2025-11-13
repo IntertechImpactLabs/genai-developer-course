@@ -36,7 +36,7 @@ Add to `.vscode/mcp.json`:
     "mock-data": {
       "type": "stdio",
       "command": "node",
-      "args": ["/workspaces/genai-developer-course/section3/02_mock_data_mcp/index.js"]
+      "args": ["/workspaces/genai-developer-course/section3/02_mock_data_mcp_exercise/index.js"]
     }
   }
 }
@@ -45,7 +45,7 @@ Add to `.vscode/mcp.json`:
 ### For Claude Code
 
 ```bash
-claude mcp add mock-data /workspaces/genai-developer-course/section3/02_mock_data_mcp/index.js
+claude mcp add mock-data /workspaces/genai-developer-course/section3/02_mock_data_mcp_exercise/index.js
 ```
 
 ## Tips
