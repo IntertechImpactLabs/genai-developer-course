@@ -9,6 +9,7 @@ const {
   validateProductId,
   handleValidationErrors
 } = require('../middleware/validation');
+const { mutationLimiter } = require('../middleware/rateLimiter');
 
 // Another direct database connection (duplicate code)
 const dbPath = path.join(__dirname, '..', '..', 'database.db');
@@ -66,7 +67,7 @@ router.get('/:id', validateProductId, handleValidationErrors, (req, res) => {
 });
 
 // POST create new product - validation and database logic mixed
-router.post('/', validateProductCreation, handleValidationErrors, (req, res) => {
+router.post('/', mutationLimiter, validateProductCreation, handleValidationErrors, (req, res) => {
   const { name, description, price, stock } = req.body;
   
   const sql = 'INSERT INTO products (name, description, price, stock) VALUES (?, ?, ?, ?)';
@@ -91,7 +92,7 @@ router.post('/', validateProductCreation, handleValidationErrors, (req, res) => 
 });
 
 // PUT update product stock - transaction logic in route
-router.put('/:id/stock', validateStockUpdate, handleValidationErrors, (req, res) => {
+router.put('/:id/stock', mutationLimiter, validateStockUpdate, handleValidationErrors, (req, res) => {
   const { id } = req.params;
   const { quantity, operation } = req.body;
   
@@ -140,7 +141,7 @@ router.put('/:id/stock', validateStockUpdate, handleValidationErrors, (req, res)
 });
 
 // DELETE product - check for existing orders before deletion
-router.delete('/:id', validateProductId, handleValidationErrors, (req, res) => {
+router.delete('/:id', mutationLimiter, validateProductId, handleValidationErrors, (req, res) => {
   const { id } = req.params;
   
   // Check if product is in any orders

@@ -8,6 +8,7 @@ const {
   validateUserId,
   handleValidationErrors
 } = require('../middleware/validation');
+const { authLimiter, mutationLimiter } = require('../middleware/rateLimiter');
 
 // Direct database connection in route file (anti-pattern)
 const dbPath = path.join(__dirname, '..', '..', 'database.db');
@@ -44,7 +45,7 @@ router.get('/:id', validateUserId, handleValidationErrors, (req, res) => {
 });
 
 // POST create new user - database logic directly in route
-router.post('/', validateUserRegistration, handleValidationErrors, (req, res) => {
+router.post('/', authLimiter, validateUserRegistration, handleValidationErrors, (req, res) => {
   const { username, email, password } = req.body;
   
   const sql = 'INSERT INTO users (username, email, password) VALUES (?, ?, ?)';
@@ -71,7 +72,7 @@ router.post('/', validateUserRegistration, handleValidationErrors, (req, res) =>
 });
 
 // PUT update user - database logic directly in route
-router.put('/:id', validateUserUpdate, handleValidationErrors, (req, res) => {
+router.put('/:id', mutationLimiter, validateUserUpdate, handleValidationErrors, (req, res) => {
   const { id } = req.params;
   const { username, email } = req.body;
   
@@ -116,7 +117,7 @@ router.put('/:id', validateUserUpdate, handleValidationErrors, (req, res) => {
 });
 
 // DELETE user - database logic directly in route
-router.delete('/:id', validateUserId, handleValidationErrors, (req, res) => {
+router.delete('/:id', mutationLimiter, validateUserId, handleValidationErrors, (req, res) => {
   const { id } = req.params;
   const sql = 'DELETE FROM users WHERE id = ?';
   

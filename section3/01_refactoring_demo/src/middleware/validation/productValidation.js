@@ -10,13 +10,13 @@ const validateProductCreation = [
     .trim()
     .notEmpty().withMessage('Product name is required')
     .isLength({ min: 1, max: 255 }).withMessage('Product name must be between 1 and 255 characters')
-    .customSanitizer(value => value.replace(/<[^>]*>/g, '')), // Remove HTML tags
+    .escape(), // Escape HTML entities
   
   body('description')
     .optional()
     .trim()
     .isLength({ max: 1000 }).withMessage('Description must not exceed 1000 characters')
-    .customSanitizer(value => value ? value.replace(/<[^>]*>/g, '') : value), // Remove HTML tags
+    .escape(), // Escape HTML entities
   
   body('price')
     .notEmpty().withMessage('Price is required')

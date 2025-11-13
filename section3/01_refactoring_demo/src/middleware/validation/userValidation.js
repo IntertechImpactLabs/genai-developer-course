@@ -11,7 +11,7 @@ const validateUserRegistration = [
     .notEmpty().withMessage('Username is required')
     .isLength({ min: 3, max: 50 }).withMessage('Username must be between 3 and 50 characters')
     .matches(/^[a-zA-Z0-9_-]+$/).withMessage('Username can only contain letters, numbers, underscores, and hyphens')
-    .customSanitizer(value => value.replace(/<[^>]*>/g, '')), // Remove any HTML tags
+    .escape(), // Escape HTML entities
   
   body('email')
     .trim()
@@ -36,7 +36,7 @@ const validateUserUpdate = [
     .trim()
     .isLength({ min: 3, max: 50 }).withMessage('Username must be between 3 and 50 characters')
     .matches(/^[a-zA-Z0-9_-]+$/).withMessage('Username can only contain letters, numbers, underscores, and hyphens')
-    .customSanitizer(value => value.replace(/<[^>]*>/g, '')),
+    .escape(),
   
   body('email')
     .optional()

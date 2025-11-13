@@ -9,6 +9,7 @@ const {
   validateOrderId,
   handleValidationErrors
 } = require('../middleware/validation');
+const { mutationLimiter } = require('../middleware/rateLimiter');
 
 // Yet another database connection (more duplicate code)
 const dbPath = path.join(__dirname, '..', '..', 'database.db');
@@ -108,7 +109,7 @@ router.get('/:id', validateOrderId, handleValidationErrors, (req, res) => {
 });
 
 // POST create new order - complex transaction logic in route
-router.post('/', validateOrderCreation, handleValidationErrors, (req, res) => {
+router.post('/', mutationLimiter, validateOrderCreation, handleValidationErrors, (req, res) => {
   const { userId, items } = req.body;
   
   // Begin transaction manually
@@ -222,7 +223,7 @@ router.post('/', validateOrderCreation, handleValidationErrors, (req, res) => {
 });
 
 // PUT update order status - business rules in route
-router.put('/:id/status', validateStatusUpdate, handleValidationErrors, (req, res) => {
+router.put('/:id/status', mutationLimiter, validateStatusUpdate, handleValidationErrors, (req, res) => {
   const { id } = req.params;
   const { status } = req.body;
   
