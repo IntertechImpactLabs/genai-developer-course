@@ -2,13 +2,20 @@ const express = require('express');
 const router = express.Router();
 const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
+const {
+  validateProductCreation,
+  validateStockUpdate,
+  validateProductQuery,
+  validateProductId,
+  handleValidationErrors
+} = require('../middleware/validation');
 
 // Another direct database connection (duplicate code)
 const dbPath = path.join(__dirname, '..', '..', 'database.db');
 const db = new sqlite3.Database(dbPath);
 
 // GET all products with optional filtering - complex query logic in route
-router.get('/', (req, res) => {
+router.get('/', validateProductQuery, handleValidationErrors, (req, res) => {
   const { minPrice, maxPrice, inStock } = req.query;
   let sql = 'SELECT * FROM products WHERE 1=1';
   const params = [];
@@ -37,7 +44,7 @@ router.get('/', (req, res) => {
 });
 
 // GET product by ID with stock check - business logic mixed with data access
-router.get('/:id', (req, res) => {
+router.get('/:id', validateProductId, handleValidationErrors, (req, res) => {
   const { id } = req.params;
   const sql = 'SELECT * FROM products WHERE id = ?';
   
@@ -59,21 +66,8 @@ router.get('/:id', (req, res) => {
 });
 
 // POST create new product - validation and database logic mixed
-router.post('/', (req, res) => {
+router.post('/', validateProductCreation, handleValidationErrors, (req, res) => {
   const { name, description, price, stock } = req.body;
-  
-  // Validation logic in route
-  if (!name || price === undefined) {
-    return res.status(400).json({ error: 'Name and price are required' });
-  }
-  
-  if (price < 0) {
-    return res.status(400).json({ error: 'Price cannot be negative' });
-  }
-  
-  if (stock && stock < 0) {
-    return res.status(400).json({ error: 'Stock cannot be negative' });
-  }
   
   const sql = 'INSERT INTO products (name, description, price, stock) VALUES (?, ?, ?, ?)';
   const productStock = stock || 0;
@@ -97,17 +91,9 @@ router.post('/', (req, res) => {
 });
 
 // PUT update product stock - transaction logic in route
-router.put('/:id/stock', (req, res) => {
+router.put('/:id/stock', validateStockUpdate, handleValidationErrors, (req, res) => {
   const { id } = req.params;
   const { quantity, operation } = req.body;
-  
-  if (!quantity || !operation) {
-    return res.status(400).json({ error: 'Quantity and operation are required' });
-  }
-  
-  if (!['add', 'subtract'].includes(operation)) {
-    return res.status(400).json({ error: 'Operation must be "add" or "subtract"' });
-  }
   
   // First get current stock
   const getStockSql = 'SELECT stock FROM products WHERE id = ?';
@@ -154,7 +140,7 @@ router.put('/:id/stock', (req, res) => {
 });
 
 // DELETE product - check for existing orders before deletion
-router.delete('/:id', (req, res) => {
+router.delete('/:id', validateProductId, handleValidationErrors, (req, res) => {
   const { id } = req.params;
   
   // Check if product is in any orders

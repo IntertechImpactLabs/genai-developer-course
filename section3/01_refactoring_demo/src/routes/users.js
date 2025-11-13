@@ -2,6 +2,12 @@ const express = require('express');
 const router = express.Router();
 const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
+const {
+  validateUserRegistration,
+  validateUserUpdate,
+  validateUserId,
+  handleValidationErrors
+} = require('../middleware/validation');
 
 // Direct database connection in route file (anti-pattern)
 const dbPath = path.join(__dirname, '..', '..', 'database.db');
@@ -21,7 +27,7 @@ router.get('/', (req, res) => {
 });
 
 // GET user by ID - database logic directly in route
-router.get('/:id', (req, res) => {
+router.get('/:id', validateUserId, handleValidationErrors, (req, res) => {
   const { id } = req.params;
   const sql = 'SELECT id, username, email, created_at FROM users WHERE id = ?';
   
@@ -38,12 +44,8 @@ router.get('/:id', (req, res) => {
 });
 
 // POST create new user - database logic directly in route
-router.post('/', (req, res) => {
+router.post('/', validateUserRegistration, handleValidationErrors, (req, res) => {
   const { username, email, password } = req.body;
-  
-  if (!username || !email || !password) {
-    return res.status(400).json({ error: 'Missing required fields' });
-  }
   
   const sql = 'INSERT INTO users (username, email, password) VALUES (?, ?, ?)';
   
@@ -69,13 +71,9 @@ router.post('/', (req, res) => {
 });
 
 // PUT update user - database logic directly in route
-router.put('/:id', (req, res) => {
+router.put('/:id', validateUserUpdate, handleValidationErrors, (req, res) => {
   const { id } = req.params;
   const { username, email } = req.body;
-  
-  if (!username && !email) {
-    return res.status(400).json({ error: 'No fields to update' });
-  }
   
   let sql = 'UPDATE users SET ';
   const params = [];
@@ -118,7 +116,7 @@ router.put('/:id', (req, res) => {
 });
 
 // DELETE user - database logic directly in route
-router.delete('/:id', (req, res) => {
+router.delete('/:id', validateUserId, handleValidationErrors, (req, res) => {
   const { id } = req.params;
   const sql = 'DELETE FROM users WHERE id = ?';
   
