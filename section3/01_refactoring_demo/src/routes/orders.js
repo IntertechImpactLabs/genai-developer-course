@@ -2,13 +2,21 @@ const express = require('express');
 const router = express.Router();
 const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
+const {
+  validateOrderCreation,
+  validateStatusUpdate,
+  validateOrderQuery,
+  validateOrderId,
+  handleValidationErrors
+} = require('../middleware/validation');
+const { mutationLimiter } = require('../middleware/rateLimiter');
 
 // Yet another database connection (more duplicate code)
 const dbPath = path.join(__dirname, '..', '..', 'database.db');
 const db = new sqlite3.Database(dbPath);
 
 // GET all orders with user info - complex join query in route
-router.get('/', (req, res) => {
+router.get('/', validateOrderQuery, handleValidationErrors, (req, res) => {
   const { userId, status } = req.query;
   let sql = `
     SELECT 
@@ -46,7 +54,7 @@ router.get('/', (req, res) => {
 });
 
 // GET order by ID with items - multiple queries and data assembly in route
-router.get('/:id', (req, res) => {
+router.get('/:id', validateOrderId, handleValidationErrors, (req, res) => {
   const { id } = req.params;
   
   // Get order with user info
@@ -101,12 +109,8 @@ router.get('/:id', (req, res) => {
 });
 
 // POST create new order - complex transaction logic in route
-router.post('/', (req, res) => {
+router.post('/', mutationLimiter, validateOrderCreation, handleValidationErrors, (req, res) => {
   const { userId, items } = req.body;
-  
-  if (!userId || !items || !Array.isArray(items) || items.length === 0) {
-    return res.status(400).json({ error: 'User ID and items are required' });
-  }
   
   // Begin transaction manually
   db.serialize(() => {
@@ -219,17 +223,9 @@ router.post('/', (req, res) => {
 });
 
 // PUT update order status - business rules in route
-router.put('/:id/status', (req, res) => {
+router.put('/:id/status', mutationLimiter, validateStatusUpdate, handleValidationErrors, (req, res) => {
   const { id } = req.params;
   const { status } = req.body;
-  
-  const validStatuses = ['pending', 'processing', 'shipped', 'delivered', 'cancelled'];
-  
-  if (!status || !validStatuses.includes(status)) {
-    return res.status(400).json({ 
-      error: `Status must be one of: ${validStatuses.join(', ')}` 
-    });
-  }
   
   // Get current status
   const getCurrentStatusSql = 'SELECT status FROM orders WHERE id = ?';
