@@ -2,9 +2,26 @@
 
 This is the starter code for the Section 3B MCP exercise. Your task is to complete the implementation of a Mock Data MCP server.
 
+## Folder Structure
+
+```
+05_mcp_server/
+├── index.js           # Main MCP server implementation
+├── package.json       # Node.js dependencies
+├── data.js           # Data loading utilities
+├── people.js         # People generation helpers
+└── data/             # JSON data files
+    ├── users.json
+    ├── products.json
+    ├── companies.json
+    ├── addresses.json
+    └── transactions.json
+```
+
 ## Setup
 
 Install dependencies:
+
 ```bash
 npm install
 ```
@@ -14,6 +31,7 @@ npm install
 Complete the implementation in `index.js`:
 
 1. **Define the tools** in the `tools/list` handler:
+
    - `generate_users` - Generate user profiles with optional addresses
    - `generate_products` - Generate e-commerce products
    - `generate_transactions` - Generate financial transactions
@@ -30,13 +48,14 @@ Complete the implementation in `index.js`:
 ### For GitHub Copilot Chat
 
 Add to `.vscode/mcp.json`:
+
 ```json
 {
   "servers": {
     "mock-data": {
       "type": "stdio",
       "command": "node",
-      "args": ["/workspaces/genai-developer-course/section3/02_mock_data_mcp_exercise/index.js"]
+      "args": ["/workspaces/genai-developer-course/05_mcp_server/index.js"]
     }
   }
 }
@@ -45,12 +64,12 @@ Add to `.vscode/mcp.json`:
 ### For Claude Code
 
 ```bash
-claude mcp add mock-data /workspaces/genai-developer-course/section3/02_mock_data_mcp_exercise/index.js
+claude mcp add mock-data /workspaces/genai-developer-course/05_mcp_server/index.js
 ```
 
 ## Tips
 
-- Helper functions are provided (getRandomItem, getRandomNumber, generateAddress)
+- Generate helper functions (getRandomItem, getRandomNumber, generateAddress)
 - Use the loaded data from JSON files (userData, productData, etc.)
 - Use `crypto.randomUUID()` for generating unique IDs
 - Remember to handle the `count` parameter to limit results
@@ -60,6 +79,7 @@ claude mcp add mock-data /workspaces/genai-developer-course/section3/02_mock_dat
 ## Data Available
 
 The following data is loaded from JSON files:
+
 - `userData` - firstNames, lastNames, emailDomains, departments, jobTitles
 - `productData` - categories with names, brands, adjectives
 - `companyData` - prefixes, suffixes, industries, locations
