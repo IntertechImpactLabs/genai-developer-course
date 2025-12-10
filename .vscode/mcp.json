@@ -4,7 +4,7 @@
 			"type": "stdio",
 			"command": "node",
 			"args": [
-				"/workspaces/genai-developer-course/section3/02_mock_data_mcp_exercise/index.js"
+				"/workspaces/genai-developer-course/05_mcp_server/index.js"
 			]
 		}
 	},
