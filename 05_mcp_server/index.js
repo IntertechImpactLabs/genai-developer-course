@@ -1,53 +1,17 @@
 #!/usr/bin/env node
+/**
+ * Mock Data MCP Server
+ *
+ * A Model Context Protocol server that provides tools for accessing mock data.
+ * Runs via stdio transport for integration with MCP clients.
+ */
 import { Server } from "@modelcontextprotocol/sdk/server/index.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import {
   CallToolRequestSchema,
   ListToolsRequestSchema,
 } from "@modelcontextprotocol/sdk/types.js";
-import fs from "fs/promises";
-import path from "path";
-import { fileURLToPath } from "url";
-import { randomUUID } from "crypto";
-
-// Get directory path for ES modules
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-// Load mock data files
-let userData;
-let productData;
-let companyData;
-let addressData;
-let transactionData;
-
-async function loadMockData() {
-  try {
-    const dataDir = path.join(__dirname, "data");
-
-    userData = JSON.parse(
-      await fs.readFile(path.join(dataDir, "users.json"), "utf-8")
-    );
-    productData = JSON.parse(
-      await fs.readFile(path.join(dataDir, "products.json"), "utf-8")
-    );
-    companyData = JSON.parse(
-      await fs.readFile(path.join(dataDir, "companies.json"), "utf-8")
-    );
-    addressData = JSON.parse(
-      await fs.readFile(path.join(dataDir, "addresses.json"), "utf-8")
-    );
-    transactionData = JSON.parse(
-      await fs.readFile(path.join(dataDir, "transactions.json"), "utf-8")
-    );
-
-    console.error("Mock data files loaded successfully");
-  } catch (error) {
-    console.error("Error loading mock data files:", error);
-    console.error("Make sure data files exist in the data/ directory");
-    process.exit(1);
-  }
-}
+import { loadMockData, mockData } from "./dataLoader.js";
 
 // Create the MCP server instance
 const server = new Server(
@@ -62,11 +26,12 @@ const server = new Server(
   }
 );
 
+// Register handler to list available tools
 server.setRequestHandler(ListToolsRequestSchema, async () => ({
   tools: [],
 }));
 
-// Handle tool execution
+// Register handler for tool execution requests
 server.setRequestHandler(CallToolRequestSchema, async (request) => {
   const { name, arguments: args } = request.params;
 
@@ -85,4 +50,16 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       ],
     };
   }
+});
+
+// Start the server
+async function main() {
+  await loadMockData();
+  const transport = new StdioServerTransport();
+  await server.connect(transport);
+}
+
+main().catch((error) => {
+  console.error("Server error:", error);
+  process.exit(1);
 });

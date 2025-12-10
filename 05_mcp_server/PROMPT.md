@@ -7,3 +7,4 @@ Your task is to complete the implementation of a Mock Data MCP server.
   address (include: true/false, default: false)
   company (include: true/false, default: false)
   address country (option: U.S. only or international, default: U.S. only)
+- Create utility functions in a separate file.
