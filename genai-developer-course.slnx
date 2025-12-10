@@ -1,0 +1,6 @@
+<Solution>
+  <Folder Name="/other_samples/" />
+  <Folder Name="/other_samples/06_stub_code/">
+    <Project Path="other_samples/06_prompt_management/prompt_api/prompt_api.csproj" />
+  </Folder>
+</Solution>
