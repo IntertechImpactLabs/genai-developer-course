@@ -87,7 +87,6 @@ Always respond in the following order:
 - No implementations.
 
 ### 4. Design Notes for Architecture Review
-- You MUST generate **exactly ONE single, self-contained, concise architecture review document**.
 - Explicit callouts for:
   - Breaking-change risk
   - Versioning strategy
