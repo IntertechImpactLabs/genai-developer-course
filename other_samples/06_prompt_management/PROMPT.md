@@ -1,4 +1,4 @@
-Generate an API for managing AI agent prompts using the .NET Core minimal API pattern.
+Generate an API for managing AI agent prompts using the .NET Core minimal API pattern int eh prompt_api project.
 
 - Support CRUD operations
 - Use REST-ful endpoints with proper verbs
