@@ -5,15 +5,17 @@
 # - Set OPENAI_API_KEY environment variable
 
 @openai-key={{$dotenv OPENAI_API_KEY}}
-@model=gpt-4.1
+# @model=gpt-4.1
 # @model=gpt-5-nano
 # @model=gpt-5
+@model=gpt-5.4
 
 ### Part 1: ChatGPT WITHOUT Tools
 # Ask about current weather - LLM can't access real data
 # https://platform.openai.com/docs/api-reference/chat/create
 # https://platform.openai.com/docs/api-reference/chat/object
 # https://platform.openai.com/docs/api-reference/messages/object
+# "reasoning_effort": "none",
 POST https://api.openai.com/v1/chat/completions
 Content-Type: application/json
 Authorization: Bearer {{openai-key}}
